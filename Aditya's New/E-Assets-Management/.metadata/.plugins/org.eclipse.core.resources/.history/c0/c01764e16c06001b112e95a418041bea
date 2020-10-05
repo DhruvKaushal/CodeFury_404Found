@@ -1,0 +1,5 @@
+package com.hsbc.asset.utility;
+
+public class DBUtility {
+
+}

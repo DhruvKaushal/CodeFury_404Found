@@ -1,0 +1,30 @@
+package com.hsbc.asset.model.beans;
+
+public class Asset {
+	
+	private int assetId;
+	private String assetName;
+	private String assetType;
+	private String assetDescription;
+	private int quantity;
+	
+	public void setAssetId(int assetId) {
+		this.assetId = assetId;
+	}
+	public void setAssetName(String assetName) {
+		this.assetName = assetName;
+	}
+	public void setAssetType(String assetType) {
+		this.assetType = assetType;
+	}
+	public void setAssetDescription(String assetDescription) {
+		this.assetDescription = assetDescription;
+	}
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+	
+	
+	
+
+}

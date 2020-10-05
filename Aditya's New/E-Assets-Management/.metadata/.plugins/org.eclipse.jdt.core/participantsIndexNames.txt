@@ -1,0 +1,3 @@
+INDEX VERSION 1.131
+D:\E-Assets-Management\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3344901533.index
+\e-assets\src

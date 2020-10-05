@@ -1,0 +1,40 @@
+package com.hsbc.asset.controller;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+
+@WebServlet("/AddAssetsServlet")
+public class AddAssetsServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+   
+  
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		String assetName = request.getParameter("name");
+		String category = request.getParameter("caregory");
+		String description = request.getParameter("description");
+		
+		System.out.println(assetName+category+description);
+		
+		PrintWriter writer = response.getWriter();
+        
+        // build HTML code
+        String htmlRespone = "<html>";
+        htmlRespone += "<h2>name is: " + assetName + "<br/>";      
+        htmlRespone += "category is: " + category + "</h2>";    
+        htmlRespone += "</html>";
+         
+        // return response
+        writer.println(htmlRespone);
+		
+	}
+
+}

@@ -1,0 +1,5 @@
+package com.hsbc.asset.exception;
+
+public class CategoryException {
+
+}

@@ -1,0 +1,5 @@
+epackage com.hsbc.asset.model.beans;
+
+public class Asset {
+
+}

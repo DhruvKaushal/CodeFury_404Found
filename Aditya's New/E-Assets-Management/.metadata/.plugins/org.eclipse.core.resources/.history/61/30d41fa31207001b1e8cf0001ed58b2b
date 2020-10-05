@@ -1,0 +1,13 @@
+package com.hsbc.asset.model.service;
+
+import com.hsbc.asset.model.beans.Asset;
+
+public class AssetServiceImpl implements AssetService {
+
+	@Override
+	public Asset addAsset(Asset asset) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

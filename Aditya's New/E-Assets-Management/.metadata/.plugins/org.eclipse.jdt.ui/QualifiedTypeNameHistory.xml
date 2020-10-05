@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="java.sql.SQLException"/>
+<fullyQualifiedTypeName name="java.lang.Class"/>
+<fullyQualifiedTypeName name="org.apache.derby.jdbc.ClientDriver"/>
+<fullyQualifiedTypeName name="com.hsbc.asset.beans.User"/>
+<fullyQualifiedTypeName name="javax.print.attribute.standard.RequestingUserName"/>
+<fullyQualifiedTypeName name="java.lang.Object"/>
+<fullyQualifiedTypeName name="com.hsbc.asset.model.dao.UserDaoImpl"/>
+<fullyQualifiedTypeName name="com.hsbc.asset.model.service.UserServiceImpl"/>
+<fullyQualifiedTypeName name="com.hsbc.asset.model.service.UserService"/>
+<fullyQualifiedTypeName name="com.hsbc.asset.model.dao.AssetDaoImpl"/>
+<fullyQualifiedTypeName name="com.hsbc.asset.model.service.AssetServiceImpl"/>
+<fullyQualifiedTypeName name="com.hsbc.asset.model.service.AssetService"/>
+<fullyQualifiedTypeName name="com.hsbc.asset.utility.FactoryPattern"/>
+<fullyQualifiedTypeName name="com.hsbc.asset.utility.Type"/>
+<fullyQualifiedTypeName name="java.sql.Connection"/>
+<fullyQualifiedTypeName name="com.hsbc.asset.utility.DBUtility"/>
+<fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
+<fullyQualifiedTypeName name="java.lang.Integer"/>
+<fullyQualifiedTypeName name="com.hsbc.asset.model.beans.Asset"/>
+<fullyQualifiedTypeName name="javax.servlet.RequestDispatcher"/>
+<fullyQualifiedTypeName name="java.io.PrintWriter"/>
+<fullyQualifiedTypeName name="java.lang.String"/>
+</qualifiedTypeNameHistroy>

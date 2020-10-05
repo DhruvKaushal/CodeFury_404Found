@@ -1,0 +1,5 @@
+package com.hsbc.asset.model.dao;
+
+public class AssetDaoImpl implements AssetDao {
+
+}

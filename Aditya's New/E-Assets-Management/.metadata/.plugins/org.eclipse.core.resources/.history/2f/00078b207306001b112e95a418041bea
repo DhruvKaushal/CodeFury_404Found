@@ -1,0 +1,5 @@
+package com.hsbc.asset.beans;
+
+public class Admin {
+
+}

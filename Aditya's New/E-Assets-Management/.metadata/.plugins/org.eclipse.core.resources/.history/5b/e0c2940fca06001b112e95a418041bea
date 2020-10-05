@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="addassets.css">
+</head>
+<body>
+
+    <h3>Admin Home</h3>
+    
+    <button class="open-assets-button" onclick="openForm()">Add Assets</button>
+
+    <div class="bg-modal" id="myForm">
+        	<div class="modal-content">
+    
+            <div class="close" onclick="closeForm()">+</div>
+            
+    
+            <form action="AddAssetsServlet" method = "post">
+            	<h1>Add Assets</h1>
+            	<label><b>Name</b></label><br />
+                	<input type="text" placeholder="Enter Asset Name" name = "name" required>
+                
+                	
+                <label><b>Category</b></label><br />
+                	<input type="text" placeholder="Enter Category" name = "category">
+                
+                
+                <label><b>Description</b></label><br />
+                	<input type="text" placeholder="Enter Description" name = "description" required>
+                	
+                 <label><b>Quantity</b></label><br />
+                	<input type="text" placeholder="Enter Quantity" name = "quantity">	
+                
+                  <button type="submit" class="btn"><b>Add</b></button>    			                 	
+        	</form> 
+    
+        </div>  
+    </div> 
+    
+	<script>
+	function openForm() {
+  		document.getElementById("myForm").style.display = "flex";
+	}
+
+	function closeForm() {
+  	document.getElementById("myForm").style.display = "none";
+	}
+	</script>
+    
+
+</body>
+</html>

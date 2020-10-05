@@ -1,0 +1,15 @@
+package com.hsbc.asset.exception;
+
+public class CategoryException {
+	
+	private static final long serialVersionUID = 1L;
+
+	public CategoryException(String args) {
+		super(args);
+	}
+	
+	public CategoryException() {
+		super("Sorry Category not found.");
+	}
+
+}

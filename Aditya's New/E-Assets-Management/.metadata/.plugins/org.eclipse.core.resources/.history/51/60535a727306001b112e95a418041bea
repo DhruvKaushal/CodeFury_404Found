@@ -1,0 +1,6 @@
+package com.hsbc.asset.beans;
+
+public abstract class User {
+	
+
+}
