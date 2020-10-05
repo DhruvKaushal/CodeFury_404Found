@@ -1,0 +1,53 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<link rel="stylesheet" href="addassets.css">
+<title>Insert title here</title>
+</head>
+<body>
+
+	  <h3>Admin Home</h3>
+    
+  	<button class="open-type-button">Add Category</button>
+ 	<button class="open-assets-button">Add Assets</button>
+
+    <div class="bg-modal2" id="myForm2">
+        	<div class="modal-content">
+    
+            
+            <h1>Asset Added!</h1>
+    
+            
+                
+             <button class="close-button" action="adminhome.jsp" class="btn"><b>Close</b></button>    			                 	
+        	
+    
+        </div>  
+    </div> 
+    
+
+
+    
+    
+   
+	<script>
+
+	function closeForm1() {
+  	document.getElementById("myForm1").style.display = "none";
+	}
+	
+	function openForm2() {
+  		document.getElementById("myForm2").style.display = "flex";
+	}
+
+	function closeForm2() {
+  	document.getElementById("myForm2").style.display = "none";
+	}
+	</script>
+
+</body>
+</html>
+

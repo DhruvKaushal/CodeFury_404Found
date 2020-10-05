@@ -1,0 +1,52 @@
+package com.hsbc.asset.model.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import com.hsbc.asset.model.beans.Asset;
+import com.hsbc.asset.utility.DBUtility;
+
+public class AssetDaoImpl implements AssetDao {
+
+	@Override
+	public Asset storeAsset(Asset asset) {
+		try {
+			
+			Connection connection = DBUtility.getConnection();
+			PreparedStatement sequenceStatement = connection.prepareStatement("values(next value for newseq_id)");
+			ResultSet rs = sequenceStatement.executeQuery();
+			int seq = 0;
+			if(rs.next()) {
+				seq = rs.getInt(1);
+			} 
+			if(seq == 0) {
+				// throw some exception to the client
+			} 
+			
+			PreparedStatement insertStatement = 
+					connection.prepareStatement("insert into asset_details values(?,?,?,?,?)");
+			insertStatement.setInt(1, seq);
+			
+			
+			insertStatement.setString(2, asset.getAssetName());
+			
+			
+		
+			insertStatement.setNString(3, asset.getAssetType());
+			
+			insertStatement.setInt(4, id);
+			//profile.setProfileId(seq);
+			insertStatement.executeUpdate();
+			System.out.println("User created with an id = "+seq);
+			insertStatement.close();
+			connection.close();
+			
+		}catch (SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+}

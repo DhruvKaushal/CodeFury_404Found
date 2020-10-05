@@ -1,0 +1,21 @@
+package com.hsbc.asset.model.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
+import com.hsbc.asset.model.beans.Asset;
+import com.hsbc.asset.utility.DBUtility;
+
+public class AssetDaoImpl implements AssetDao {
+
+	@Override
+	public Asset storeAsset(Asset asset) {
+		try {
+			
+			Connection connection = DBUtility.getConnection();
+			PreparedStatement sequenceStatement = connection.prepareStatement(sql);
+		}
+		return null;
+	}
+
+}

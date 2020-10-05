@@ -1,0 +1,11 @@
+package com.hsbc.asset.model.beans;
+
+public class Asset {
+	
+	private int assetId;
+	private String assetName;
+	private String assetType;
+	private String assetDescription;
+	private int quantity;
+
+}

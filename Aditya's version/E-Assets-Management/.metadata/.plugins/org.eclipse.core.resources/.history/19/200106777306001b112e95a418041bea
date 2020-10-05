@@ -1,0 +1,7 @@
+package com.hsbc.asset.beans;
+
+import com.hsbc.asset.model.beans.User;
+
+public class Borrower extends User{
+
+}

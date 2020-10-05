@@ -1,0 +1,33 @@
+package com.hsbc.asset.utility;
+
+import com.hsbc.asset.model.dao.UserDaoImpl;
+import com.hsbc.asset.model.service.UserServiceImpl;
+
+public class FactoryPattern {
+	
+	public static Object getInstance(Type type) {
+		
+		Objectobj = null;
+		
+		switch (type) {
+		case DAO: 
+			obj = new UserDaoImpl();
+			
+			break;
+		
+		case SERVICE:
+			obj = new UserServiceImpl();
+			break;
+
+		}
+		if(type.equals("dao")) {
+			return new ProfileDaoImpl();
+		}
+		if(type.equals("service")) {
+			return new ProfileServiceImpl();
+		}
+		return null;
+	}
+	
+
+}

@@ -1,0 +1,13 @@
+package com.hsbc.asset.model.dao;
+
+import com.hsbc.asset.model.beans.Asset;
+
+public class AssetDaoImpl implements AssetDao {
+
+	@Override
+	public Asset storeAsset(Asset asset) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

@@ -1,0 +1,15 @@
+package com.hsbc.asset.model.beans;
+
+public class AssetType {
+	
+	private String typeName;
+	private int lendingPeriod;
+	private double fine;
+	private int ban;
+	
+	
+	
+	
+	
+
+}

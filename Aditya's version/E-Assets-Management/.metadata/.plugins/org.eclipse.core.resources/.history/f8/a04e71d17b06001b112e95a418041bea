@@ -1,0 +1,5 @@
+package com.hsbc.asset.model.service;
+
+public class UserServiceDaoImpl {
+
+}
