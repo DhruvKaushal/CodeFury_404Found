@@ -6,6 +6,20 @@ public class AssetType {
 	private int lendingPeriod;
 	private double fine;
 	private int ban;
+	
+		
+	public AssetType() {
+		super();
+	}
+
+	public AssetType(String typeName, int lendingPeriod, double fine, int ban) {
+		super();
+		this.typeName = typeName;
+		this.lendingPeriod = lendingPeriod;
+		this.fine = fine;
+		this.ban = ban;
+	}
+	
 	public String getTypeName() {
 		return typeName;
 	}
@@ -30,10 +44,5 @@ public class AssetType {
 	public void setBan(int ban) {
 		this.ban = ban;
 	}
-	
-	
-	
-	
-	
 
 }

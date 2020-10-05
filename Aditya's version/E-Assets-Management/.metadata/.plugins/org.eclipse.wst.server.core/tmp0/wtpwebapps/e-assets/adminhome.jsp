@@ -8,8 +8,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-
-	  <h3>Admin Home</h3>
+	<script src="admin.js"></script>		
+	<h3>Admin Home</h3>
     
   	<button class="open-type-button" onclick="openForm1()">Add Category</button>
  	<button class="open-assets-button" onclick="openForm2()">Add Assets</button>
@@ -28,6 +28,7 @@
                 	
                 <label><b>Category</b></label><br />
                 	<input type="text" placeholder="Enter Category" name = "category">
+                	
                 
                 
                 <label><b>Description</b></label><br />
@@ -68,26 +69,7 @@
     
         </div>  
     </div> 
-    
-    
-   
-	<script>
-	function openForm1() {
-  		document.getElementById("myForm1").style.display = "flex";
-	}
 
-	function closeForm1() {
-  	document.getElementById("myForm1").style.display = "none";
-	}
-	
-	function openForm2() {
-  		document.getElementById("myForm2").style.display = "flex";
-	}
-
-	function closeForm2() {
-  	document.getElementById("myForm2").style.display = "none";
-	}
-	</script>
 
 </body>
 </html>

@@ -15,6 +15,7 @@
     <div class="bg-modal2" id="myForm2">
         <div class="modal-content">
         	<h1>Category Added!</h1>
+        	 <p>Type Name: ${assetTypeKey.typeName}, Lending Period : ${assetTypeKey.lendingPeriod}, Fine: ${assetTypeKey.fine}, Ban Period: ${assetTypeKey.ban}</p>
              <form method = "post" action="adminhome.jsp">	
              	<button  class="close-button" type = "submit"><b>Close</b></button>                 	
         	 </form>   

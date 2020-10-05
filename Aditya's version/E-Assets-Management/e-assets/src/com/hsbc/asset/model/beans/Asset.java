@@ -1,6 +1,6 @@
 package com.hsbc.asset.model.beans;
 
-public class Asset {
+public class Asset extends AssetType{
 	
 	private int assetId;
 	private String assetName;
@@ -8,6 +8,26 @@ public class Asset {
 	private String assetDescription;
 	private int quantity;
 	
+	
+	
+	
+	public Asset() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	
+	
+	public Asset(int assetId, String assetName, String assetType, String assetDescription, int quantity) {
+		super();
+		this.assetId = assetId;
+		this.assetName = assetName;
+		this.assetType = assetType;
+		this.assetDescription = assetDescription;
+		this.quantity = quantity;
+	}
+
+
 	public int getAssetId() {
 		return assetId;
 	}

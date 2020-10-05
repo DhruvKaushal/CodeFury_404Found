@@ -1371,3 +1371,6 @@ Caused by: org.eclipse.aether.transfer.ArtifactNotFoundException: Could not find
 !MESSAGE Help document /org.eclipse.datatools.doc.isv/html/reference/api/org/eclipse/datatools/sqltools/schemaobjecteditor/ui/util/package-summary.html cannot be opened.
 !SUBENTRY 1 org.eclipse.help.base 4 4 2020-10-05 20:37:57.398
 !MESSAGE Help document /org.eclipse.datatools.doc.isv/html/reference/api/org/eclipse/datatools/sqltools/result/internal/ui/export/component/package-summary.html cannot be opened.
+
+!ENTRY org.eclipse.jface.text 2 0 2020-10-05 23:19:34.703
+!MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.boolean'

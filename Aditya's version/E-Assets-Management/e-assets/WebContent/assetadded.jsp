@@ -15,7 +15,7 @@
     <div class="bg-modal2" id="myForm2">
         <div class="modal-content">
            <h1>Asset Added!</h1>
-           <p>Id: ${newAsset.assetId}, Name : ${newAsset.assetName}, Type: ${newAsset.assetType}, Quantity: ${newAsset.quantity}</p>
+           <p>Id: ${assetKey.assetId}, Name : ${assetKey.assetName}, Type: ${assetKey.assetType}, Quantity: ${assetKey.quantity}</p>
             <form method = "post" action="adminhome.jsp">	
             	<button  class="close-button" type = "submit"><b>Close</b></button>                 	
         	</form>   

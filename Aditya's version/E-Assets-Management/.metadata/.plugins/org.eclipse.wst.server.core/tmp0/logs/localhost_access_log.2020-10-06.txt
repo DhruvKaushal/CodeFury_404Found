@@ -1,0 +1,5 @@
+127.0.0.1 - - [06/Oct/2020:00:07:12 +0530] "GET / HTTP/1.1" 404 751
+0:0:0:0:0:0:0:1 - - [06/Oct/2020:00:07:13 +0530] "GET /e-assets/adminhome.jsp HTTP/1.1" 200 2673
+0:0:0:0:0:0:0:1 - - [06/Oct/2020:00:07:13 +0530] "GET /e-assets/addassets.css HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [06/Oct/2020:00:07:13 +0530] "GET /e-assets/admin.js HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [06/Oct/2020:00:07:27 +0530] "POST /e-assets/AddAssetTypeServlet HTTP/1.1" 200 738
