@@ -69,3 +69,4 @@
 	<a href="registration.jsp">here</a>
 </body>
 </html>
+<!-- added demo changes -->
