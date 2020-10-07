@@ -2,16 +2,16 @@ package com.hsbc.asset.model.beans;
 
 import java.sql.Timestamp;
 
-public abstract class User {
+public class User {
 	private int user_id;
 	private String name;
 	private String username;
-	private String role;
 	private long contactNo;
 	private String email;
 	private Timestamp signup_date_and_time;
 	private Timestamp login_date_and_time;
 	private String password;
+	private String salt;
 	
 	//Setters and getters
 	public int getUser_id() {
@@ -26,12 +26,7 @@ public abstract class User {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	public String getRole() {
-		return role;
-	}
-	public void setRole(String role) {
-		this.role = role;
-	}
+
 	public long getContactNo() {
 		return contactNo;
 	}
@@ -57,12 +52,6 @@ public abstract class User {
 		this.password = password;
 	}
 	
-	@Override
-	public String toString() {
-		return "User [user_id=" + user_id + ", username=" + username + ", role=" + role + ", contactNo=" + contactNo
-				+ ", email=" + email + ", signup_date_and_time=" + signup_date_and_time + ", password=" + password
-				+ "]";
-	}
 	public String getName() {
 		return name;
 	}
@@ -75,5 +64,18 @@ public abstract class User {
 	public void setLogin_date_and_time(Timestamp login_date_and_time) {
 		this.login_date_and_time = login_date_and_time;
 	}
+	public String getSalt() {
+		return salt;
+	}
+	public void setSalt(String salt) {
+		this.salt = salt;
+	}
+	@Override
+	public String toString() {
+		return "User [user_id=" + user_id + ", name=" + name + ", username=" + username + ", contactNo=" + contactNo
+				+ ", email=" + email + ", signup_date_and_time=" + signup_date_and_time + ", login_date_and_time="
+				+ login_date_and_time + ", password=" + password + ", salt=" + salt + "]";
+	}
+	
 	
 }

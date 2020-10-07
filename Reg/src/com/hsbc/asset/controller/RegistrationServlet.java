@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.hsbc.asset.exception.ContactNoAlreadyExistsException;
+import com.hsbc.asset.exception.EmailAlreadylExistsException;
+import com.hsbc.asset.exception.UsernameAlreadyExistsException;
 import com.hsbc.asset.model.beans.User;
 import com.hsbc.asset.model.service.UserService;
 import com.hsbc.asset.model.util.UserFactory;
@@ -49,6 +52,13 @@ public class RegistrationServlet extends HttpServlet {
 		String email = request.getParameter("mail");
 		String username = request.getParameter("un");
 		String password = request.getParameter("ps");
+		String passwordConfirm = request.getParameter("pscnf");
+		if(!password.equals(passwordConfirm)) {
+			request.setAttribute("err", "Sorry, passwords do not match. Try again!");
+			RequestDispatcher rd = request.getRequestDispatcher("registration.jsp");
+			rd.forward(request, response);
+			//throw new IllegalArgumentException("Sorry, passwords do not match. Try again!");
+		}
 		UserService service = (UserService)UserFactory.getInstance("service");
 		
 		//Get current date. Set this as the signup and the first login timestamp
@@ -56,7 +66,7 @@ public class RegistrationServlet extends HttpServlet {
         //System.out.println(timeIn);
         User user = new User();
         user.setName(name);
-        user.setRole(role);
+        //user.setRole(role);
         user.setContactNo(contact);
         user.setEmail(email);
         user.setUsername(username);
@@ -68,7 +78,15 @@ public class RegistrationServlet extends HttpServlet {
         String salt = PasswordEncryptionUtility.getSalt(10);
         password = PasswordEncryptionUtility.generateSecurePassword(password, salt);
         user.setPassword(password);
-        User newUser=service.createUser(user);
+        user.setSalt(salt);
+        try {
+			User newUser=service.createUser(user);
+		} catch (EmailAlreadylExistsException | UsernameAlreadyExistsException | ContactNoAlreadyExistsException e) {
+			// TODO Auto-generated catch block
+			request.setAttribute("err", e.getMessage());
+			RequestDispatcher rd = request.getRequestDispatcher("registration.jsp");
+			rd.forward(request, response);
+		}
         HttpSession session = request.getSession();
         //session.setAttribute("encryptedPasswordSalt", salt);
         

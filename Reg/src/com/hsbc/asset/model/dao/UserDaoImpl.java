@@ -1,5 +1,5 @@
 package com.hsbc.asset.model.dao;
-
+import com.hsbc.asset.exception.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,7 +9,7 @@ import com.hsbc.asset.model.beans.User;
 import com.hsbc.asset.model.util.DBUtility;
 
 public class UserDaoImpl implements UserDao{
-	public User store(User user){
+	public User store(User user) throws EmailAlreadylExistsException, UsernameAlreadyExistsException, ContactNoAlreadyExistsException{
 		try {
 			Connection connection = DBUtility.getConnection();
 			PreparedStatement sequenceStatement = connection.prepareStatement("values(next value for user_seq)");
@@ -18,31 +18,47 @@ public class UserDaoImpl implements UserDao{
 			if(rs.next()) {
 				seq = rs.getInt(1);
 			} 
-			PreparedStatement insertStatement1=connection.prepareStatement("insert into user_record values(?,?,?,?,?,?)");
-			PreparedStatement insertStatement2=connection.prepareStatement("insert into user_login values(?,?,?,?)");
+			PreparedStatement insertStatement1=connection.prepareStatement("insert into users_table values(?,?,?,?,?,?,?,?,?)");
 			insertStatement1.setInt(1,seq);
 			user.setUser_id(seq);
-//			System.out.println(seq);
-//			System.out.println(user.getEmail());
-//			System.out.println(user.getContactNo());
-//			System.out.println(user.getSignup_date_and_time());
-			System.out.println("hello1");
-			insertStatement1.setString(2,user.getName());
-			insertStatement1.setString(3,user.getRole());
-			insertStatement1.setString(4,user.getEmail());
 			
-			insertStatement1.setTimestamp(5, user.getSignup_date_and_time());
-			insertStatement1.setLong(6,user.getContactNo());
-			System.out.println("hello2");
-			insertStatement2.setString(1, user.getEmail());
-			insertStatement2.setString(2, user.getUsername());
-			insertStatement2.setString(3, user.getPassword());
-			insertStatement2.setTimestamp(4, user.getLogin_date_and_time());
-			int resultSet2 = insertStatement2.executeUpdate();
+			insertStatement1.setString(2,user.getName());
+			insertStatement1.setString(3, user.getUsername());
+			insertStatement1.setLong(4,user.getContactNo());
+			insertStatement1.setString(5,user.getEmail());
+			insertStatement1.setTimestamp(6, user.getLogin_date_and_time());
+			insertStatement1.setTimestamp(7, user.getSignup_date_and_time());
+			insertStatement1.setString(8, user.getPassword());
+			insertStatement1.setString(9, user.getSalt());
+			
+			//Check if user already exists with provided user email
+			PreparedStatement insertStatement2 = connection.prepareStatement("select * from users_table where email=?");
+			insertStatement2.setString(1,user.getEmail());
+			ResultSet r = insertStatement2.executeQuery();
+			if(r.next()) {
+				throw new EmailAlreadylExistsException("This email is already registered. Please try with a different email ID!");
+			}
+			
+			//Check if user already exists with provided user name
+			insertStatement2 = connection.prepareStatement("select * from users_table where username=?");
+			insertStatement2.setString(1,user.getUsername());
+			r = insertStatement2.executeQuery();
+			if(r.next()) {
+				throw new UsernameAlreadyExistsException("This username is already registered. Please using a different username!");
+			}
+			
+			//Check if user already exists with provided user name
+			insertStatement2 = connection.prepareStatement("select * from users_table where contact=?");
+			insertStatement2.setLong(1,user.getContactNo());
+			r = insertStatement2.executeQuery();
+			if(r.next()) {
+				throw new ContactNoAlreadyExistsException("This contact number is already registered. Please using a different number!");
+			}
+			
+			
 			int resultSet1 = insertStatement1.executeUpdate();
 			sequenceStatement.close();
 			insertStatement1.close();
-			insertStatement2.close();
 			connection.close();
 			
 		} catch (SQLException | ClassNotFoundException e) {
