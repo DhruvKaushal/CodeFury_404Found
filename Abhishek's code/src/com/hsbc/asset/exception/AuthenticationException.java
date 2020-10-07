@@ -4,7 +4,7 @@ public class AuthenticationException extends Exception {
 	private static final long serialVersionUID = 1L;
 
 	public AuthenticationException() {
-		super();
+		super("Username or Password is incorrect. Please try again.");
 	}
 
 	public AuthenticationException(String msg) {

@@ -1,79 +1,90 @@
 package com.hsbc.asset.model.beans;
 
 
-public class Borrower extends User {
-	
-	public Borrower() {}
-	
+public class Borrower {
+	private int userId;
+	private String userName;
+	private String name;
+	private String role;
+	private String password;
+	private long contact;
+	private String email;
+	private String signUpDate;
+	private String signInDate;
+
+	public Borrower() {
+		super();
+	}
+
 	public int getUserId() {
-		return super.getUserId();
+		return userId;
 	}
 	
 	public String getUserName() {
-		return super.getUserName();
+		return userName;
 	}
 	
 	public String getName() {
-		return super.getName();
+		return name;
 	}
 
 	public String getRole() {
-		return super.getRole();
+		return role;
 	}
 	
 	public String getEmail() {
-		return super.getEmail();
+		return email;
 	}
 	
 	public String getPassword() {
-		return super.getPassword();
+		return password;
 	}
 
 	public long getContact() {
-		return super.getContact();
+		return contact;
 	}
 
 	public String getSignUpDate() {
-		return super.getSignUpDate();
+		return signUpDate;
 	}
 
 	public String getSignInDate() {
-		return super.getSignInDate();
+		return signInDate;
 	}
 	
 	public void setUserId(int userId) {
-		super.setUserId(userId);
+		this.userId = userId;
 	}
 	
 	public void setName(String name) {
-		super.setName(name);
+		this.name = name;
 	}
 	
 	public void setUserName(String userName) {
-		super.setUserName(userName);
+		this.userName = userName;
 	}
 	
 	public void setRole(String role) {
-		super.setRole(role);
+		this.role = role;
 	}
 	
 	public void setEmail(String email) {
-		super.setEmail(email);
+		this.email = email;
 	}
 	
 	public void setPassword(String password) {
-		super.setPassword(password);
+		this.password = password;
 	}
 
 	public void setContact(long contact) {
-		super.setContact(contact);
+		this.contact = contact;
 	}
 
 	public void setSignUpDate(String signUpDate) {
-		super.setSignUpDate(signUpDate);
+		this.signUpDate = signUpDate;
 	}
 	
 	public void setSignInDate(String signInDate) {
-		super.setSignInDate(signInDate);
+		this.signInDate = signInDate;
 	}
 }

@@ -12,9 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.hsbc.asset.exception.DatabaseDownException;
 import com.hsbc.asset.exception.DuplicateUserException;
 import com.hsbc.asset.model.beans.Borrower;
-import com.hsbc.asset.model.beans.User;
 import com.hsbc.asset.model.business.UserService;
 import com.hsbc.asset.model.util.LayerType;
 import com.hsbc.asset.model.util.UserFactory;
@@ -33,7 +33,7 @@ public class RegisterServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		UserService service = (UserService) UserFactory.getInstance(LayerType.SERVICE);
 		
-		User borrower = new Borrower();
+		Borrower borrower = new Borrower();
 		borrower.setName(request.getParameter("name"));
 		borrower.setUserName(request.getParameter("user"));
 		borrower.setContact(Long.parseLong(request.getParameter("contact")));
@@ -43,7 +43,7 @@ public class RegisterServlet extends HttpServlet {
 		Timestamp ts = new Timestamp(new Date().getTime());
 		borrower.setSignUpDate(ts.toString());
 
-		User newUser;
+		Borrower newUser;
 		try {
 			newUser = service.createUser(borrower);
 			session.setAttribute("newUser" , newUser);
@@ -51,6 +51,10 @@ public class RegisterServlet extends HttpServlet {
 			rd.include(request, response);
 		} catch (DuplicateUserException e) {
 			response.getWriter().print("<p style='color:red'>User is already registered. Kindly login.</p>");
+			RequestDispatcher rd = request.getRequestDispatcher("login.html");
+			rd.include(request, response);
+		} catch (DatabaseDownException e) {
+			response.getWriter().print("<p style='color:red;'>Sorry, our Database is Down. Please try again later.</p>");
 			RequestDispatcher rd = request.getRequestDispatcher("login.html");
 			rd.include(request, response);
 		}

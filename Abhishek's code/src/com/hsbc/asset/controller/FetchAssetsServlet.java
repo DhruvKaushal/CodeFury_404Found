@@ -1,6 +1,7 @@
 package com.hsbc.asset.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.hsbc.asset.exception.DatabaseDownException;
 import com.hsbc.asset.model.beans.Asset;
 import com.hsbc.asset.model.business.UserService;
 import com.hsbc.asset.model.util.LayerType;
@@ -28,15 +30,26 @@ public class FetchAssetsServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		
 		UserService service = (UserService) UserFactory.getInstance(LayerType.SERVICE);
 		String type = request.getParameter("assets");
-		List<Asset> assetList = service.fetchAllAssets(type);
-		session.setAttribute("assetList", assetList);
-		session.setAttribute("currType", type);
 		
-		RequestDispatcher rd = request.getRequestDispatcher("assetpagesuccess.jsp");
-		rd.forward(request, response);
+		try{	
+			List<Asset> assetList = service.fetchAllAssets(type);
+			List<Integer> idList = new ArrayList<Integer>();
+			for(Asset asset : assetList) {
+				idList.add(asset.getAssetId());
+			}
+			session.setAttribute("assetList", assetList);
+			session.setAttribute("idList", idList);
+			session.setAttribute("currType", type);
+		
+			RequestDispatcher rd = request.getRequestDispatcher("assetpagesuccess.jsp");
+			rd.forward(request, response);
+		} catch(DatabaseDownException d) {
+			response.getWriter().print("<p style='color:red;'>Sorry, our Database is Down. Please try again later.</p>");
+			RequestDispatcher rd = request.getRequestDispatcher("login.html");
+			rd.include(request, response);
+		}
 	}
 
 }

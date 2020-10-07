@@ -1,6 +1,7 @@
 package com.hsbc.asset.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,7 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.hsbc.asset.exception.AuthenticationException;
-import com.hsbc.asset.model.beans.User;
+import com.hsbc.asset.exception.BorrowerNotFoundException;
+import com.hsbc.asset.exception.DatabaseDownException;
+import com.hsbc.asset.model.beans.Borrower;
 import com.hsbc.asset.model.business.UserService;
 import com.hsbc.asset.model.util.LayerType;
 import com.hsbc.asset.model.util.UserFactory;
@@ -28,19 +31,40 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		String email = request.getParameter("email");
+		PrintWriter pw = response.getWriter();
+		
+		String email = request.getParameter("mail");
 		String password = request.getParameter("pass");
 		UserService service = (UserService) UserFactory.getInstance(LayerType.SERVICE);
-		User borrower = null;
+		Borrower borrower = null;
+		
 		try {
 			borrower = service.login(email, password);
-		} catch (AuthenticationException e) {
-			e.printStackTrace();
+			session.setAttribute("userKey", borrower);
+			boolean isBan = service.banCheck(borrower.getUserId());
+			session.setAttribute("banKey", isBan);
+			if(isBan) {
+				pw.print("<p style='color:red;'>Username or Password is incorrect. Please try again.</p>");
+				RequestDispatcher rd = request.getRequestDispatcher("loginsuccesswithban.jsp");
+				rd.include(request, response);
+			}
+			else {
+				RequestDispatcher rd = request.getRequestDispatcher("loginsuccess.jsp");
+				rd.forward(request, response);
+			}
+		} catch (AuthenticationException a) {
+			pw.print("<p style='color:red;'>Username or Password is incorrect. Please try again.</p>");
+			RequestDispatcher rd = request.getRequestDispatcher("login.html");
+			rd.include(request, response);
+		} catch (BorrowerNotFoundException b) {
+			pw.print("<p style='color:red;'>Sorry, no such User exists in our Database. Please check credentials again.</p>");
+			RequestDispatcher rd = request.getRequestDispatcher("login.html");
+			rd.include(request, response);
+		} catch (DatabaseDownException e) {
+			pw.print("<p style='color:red;'>Sorry, our Database is Down. Please try again later.</p>");
+			RequestDispatcher rd = request.getRequestDispatcher("login.html");
+			rd.include(request, response);
 		}
-		
-		session.setAttribute("userKey", borrower);
-		RequestDispatcher rd = request.getRequestDispatcher("loginsuccess.jsp");
-		rd.forward(request, response);
 	}
 
 }

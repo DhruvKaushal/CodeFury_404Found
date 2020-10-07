@@ -6,11 +6,17 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Popular Items</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
 	<!-- Header Template Here-->
-	<a href="loginsuccess.jsp">Back to Dashboard</a>
-	<br />
+	<div class="dash-back">
+		<h2>Asset Request Page</h2>
+		<a class="btn btn-primary stretched-link" href="loginsuccess.jsp">Back to Dashboard</a>
+	</div>
 	
 <%-- 	<h3>Checkout Popular Items right here:</h3>
 	<table class='table'>
@@ -35,17 +41,18 @@
 	</table> --%>
 	<hr />
 	
-	<h2>Request a New Asset:</h2>
-	<form action="FetchAssetsServlet">
-  		<label for="category">Choose an asset category:</label>
-  		<select name="assets" id="asset">
-    		<core:forEach items="${categoryList}" var="c">
-				<option>${c}</option>
-			</core:forEach>
-  		</select>
-  		<input type="submit" value="Fetch Assets">
-	</form>
-	<br />
+	<div>
+		<h2 class="asset-req" >Request a New Asset:</h2>
+		<form action="FetchAssetsServlet">
+  			<label class="label" for="category">Choose an asset category:</label>
+  			<select class="btn btn-primary active" name="assets" id="assets">
+    			<core:forEach items="${categoryList}" var="c">
+					<option>${c}</option>
+				</core:forEach>
+  			</select>
+  			<input class="submit-btn btn btn-primary btn-sm" type="submit" value="Fetch Assets">
+		</form>
+	</div>
 	
 	<!--  Footer Template Here-->
 </body>

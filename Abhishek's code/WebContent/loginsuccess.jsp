@@ -20,7 +20,14 @@
 	</div>
 	<hr/>
 	
-	<h3>Checkout the Assets Page right here:<a href="PopularAssetServlet">Assets</a></h3>
+	<h3>Checkout the Assets Page right here:<a href="AssetsPageServlet">Assets</a></h3>
+	<hr />
+	
+	<div>
+		<h3>Messages/Notifications</h3>
+		<p>No new messages right now.</p>
+		<!-- Messages Template Here -->
+	</div>
 	<hr />
 	
 	<h3>Want to leave?</h3>
