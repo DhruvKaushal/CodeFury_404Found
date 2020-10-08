@@ -1,8 +1,7 @@
 package com.hsbc.asset.controller;
 
-
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,18 +14,27 @@ import javax.servlet.http.HttpSession;
 import com.hsbc.asset.exception.CategoryException;
 import com.hsbc.asset.model.beans.Asset;
 import com.hsbc.asset.model.service.UserService;
+import com.hsbc.asset.model.utility.FactoryPattern;
+import com.hsbc.asset.model.utility.Type;
 
-import com.hsbc.asset.utility.FactoryPattern;
-import com.hsbc.asset.utility.Type;
-
-
+/**
+ * Servlet implementation class AddAssetServlet
+ */
 @WebServlet("/AddAssetsServlet")
 public class AddAssetsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-   
-  
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+	UserService service = (UserService)FactoryPattern.getInstance(Type.SERVICE);
+
+	List<String> listCatagory = service.getCategoryList();
+	request.setAttribute("listCategory", listCatagory);
+	RequestDispatcher rd = request.getRequestDispatcher("adminhome.jsp");
+	rd.forward(request, response);
+}       
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	
 		String assetName = request.getParameter("name");
 		String category = request.getParameter("category");
 		String description = request.getParameter("description");
@@ -35,7 +43,7 @@ public class AddAssetsServlet extends HttpServlet {
 			assetQuantity = "1";
 		int quantity = Integer.parseInt(assetQuantity);
 		
-		
+	    
 		UserService service = (UserService)FactoryPattern.getInstance(Type.SERVICE);
 		
 		Asset newAsset = new Asset();
@@ -45,6 +53,8 @@ public class AddAssetsServlet extends HttpServlet {
 		newAsset.setAssetType(category);
 		newAsset.setQuantity(quantity);
 		
+		
+		         
 		Asset asset = null;
 		try {
 			asset = service.addAsset(newAsset);
@@ -57,8 +67,6 @@ public class AddAssetsServlet extends HttpServlet {
 		session.setAttribute("assetKey", asset);
 	    RequestDispatcher rd = request.getRequestDispatcher("assetadded.jsp");
 		rd.forward(request, response);
-		
-		
 		
 	}
 
