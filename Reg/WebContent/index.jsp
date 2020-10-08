@@ -11,9 +11,9 @@
 </head>
 <body>
 	<hr>
-	<h1 style="background-color:grey;color:white;text-align:center;font-size:48px;padding:10px">WELCOME TO THE E-ASSET MANAGEMENT PORTAL</h1>
+	<h1 style="background-color:grey;color:white;text-align:center;font-size:48px;padding:10px">Welcome To The E-Asset Management Portal</h1>
 	<br>
-	<h1 style="background-color:grey;color:white;text-align:center">ABOUT THE APPLICATION</h1>
+	<h1 style="background-color:grey;color:white;text-align:center">About the Application</h1>
 	<br>
 	<p>Your very own portal for borrowing essentials. From our wide range of products such as latops, mobiles, books etc. 
 	   we shall ensure that your learning never stops! So log on and find your necessities, all at one place!</p>

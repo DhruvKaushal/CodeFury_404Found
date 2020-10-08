@@ -1,0 +1,20 @@
+{
+	"users_information": [
+		{
+			"email":"vishal@gmail.com",
+			"username": "vishal789i",
+			"password": "123456",
+			"name": "vishal",
+			"user_id": "1344431",
+			"contact": 7030968964
+		},
+		{
+			"email":"sagar@gmail.com",
+			"username": "sagar789i",
+			"password": "1234563",
+			"name": "sagar",
+			"user_id": "12344245",
+			"contact": 2352352353
+		}
+	]
+}

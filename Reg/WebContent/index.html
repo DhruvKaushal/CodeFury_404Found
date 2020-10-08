@@ -9,13 +9,12 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 </head>
 <body>
-	<h1 style="background-color:grey;color:white;text-align:center;font-size:48px">WELCOME TO THE E-ASSET MANAGEMENT PORTAL</h1>
+	<h2 style="background-color:grey;color:white;text-align:center;padding:10px">Welcome To The E-Asset Management Portal</h2>
 	<br>
-	<h1 style="background-color:grey;color:white;text-align:center">ABOUT THE APPLICATION</h1>
-	
+	<h3 style="background-color:grey;color:white;text-align:center">About the Application</h3>
 	<br>
 	<!-- Product Slideshow -->
-	<h1 style="background-color:grey;color:white;text-align:center">OUR PRODUCTS</h1>
+	<h4 style="background-color:grey;color:white;text-align:center">Our Products</h4>
 	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="height:600px;width:80%; margin:Auto">
   		<ol class="carousel-indicators">
     		<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -45,20 +44,36 @@
 	<hr/>
 	<!-- Cards for login and registration functionality -->
 	<div class="row" style="width:80%;margin:auto">
-  	<div class="col-sm-6">
+  	<div class="col-sm-4">
     	<div class="card">
       		<div class="card-body" style="margin:auto;">
-        		<h5 class="card-title">New here? Click below to register!</h5>
+        		<h5 class="card-title">New here? Click below to register!</h5><br>
         		<a href="registration.jsp" class="btn btn-danger" style="margin-left:33%">Register Now</a>
       		</div>
     	</div>
   	</div>
-  	<div class="col-sm-6" style="margin:auto">
+  	<div class="col-sm-4" style="margin:auto">
     	<div class="card">
     		<div class="card-body" style="margin:auto">
         		<h5 class="card-title">Already registered? Click below to login!</h5>
         		<!-- login added -->
         		<a href="login.jsp" class="btn btn-danger" style="margin-left:33%">Login</a>
+      		</div>
+    	</div>
+  	</div>
+  	<div class="col-sm-4" style="margin:auto">
+    	<div class="card">
+    		<div class="card-body" style="margin:auto">
+        		<h5 class="card-title">Upload Users with a JSON File?</h5>
+        		  <form action = "ImportController" method = "post" enctype = "multipart/form-data">
+				      <div class="custom-file">
+				         
+				         <input type="file" class="custom-file-input" id="inputGroupFile02"  name = "file" size = "50">
+				    	 <label class="custom-file-label" for="inputGroupFile02">Choose file</label>
+
+				        <center> <button type = "submit" class="btn btn-danger" value = "Upload File" >Upload File</button></center>
+				      </div>
+			      </form>
       		</div>
     	</div>
   	</div>
