@@ -11,6 +11,7 @@
 <body>
 	<jsp:include page="assetpage.jsp"></jsp:include>
 	<hr />
+	
 	<div class="asset-list">
 		<h3>Search Results for ${currType} are:</h3>
 		<table class="table table-hover table-info">

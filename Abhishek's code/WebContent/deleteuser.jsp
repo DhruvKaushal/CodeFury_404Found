@@ -9,6 +9,7 @@
 <body>
 	<h3>Delete User Page</h3><br/><br/>
 	<hr/>
+	
 	<h3>If you are sure, confirm your action by clicking on the link below:</h3><br/><br/>
 	<a href="DeleteUserServlet">Delete User</a>
 </body>

@@ -1,6 +1,7 @@
 package com.hsbc.asset.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -28,14 +29,23 @@ public class DeleteUserServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		PrintWriter pw = response.getWriter();
 		UserService service = (UserService) UserFactory.getInstance(LayerType.SERVICE);
 		Borrower user = (Borrower) session.getAttribute("userKey");
 		try {
-			service.deleteUser(user.getUserId());
-			session.invalidate();
-			response.getWriter().print("<div style='color:green'>User has been deleted successfully.</div>");
-			RequestDispatcher rd = request.getRequestDispatcher("login.html");
-			rd.include(request, response);
+			if(service.banCheck(user.getUserId())) {
+				pw.print("<p>You can't delete your profile as you have not returned all your items.<br/>"
+						+ "Kindly complete your dues before leaving us!</p>");
+				RequestDispatcher rd = request.getRequestDispatcher("loginsuccess.jsp");
+				rd.include(request, response);
+			}
+			else {
+				service.deleteUser(user.getUserId());
+				session.invalidate();
+				response.getWriter().print("<div style='color:green'>User has been deleted successfully.</div>");
+				RequestDispatcher rd = request.getRequestDispatcher("login.html");
+				rd.include(request, response);
+			}
 		} catch (DatabaseDownException e) {
 			response.getWriter().print("<p style='color:red;'>Sorry, our Database is Down. Please try again later.</p>");
 			RequestDispatcher rd = request.getRequestDispatcher("login.html");

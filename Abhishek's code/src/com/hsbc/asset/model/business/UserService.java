@@ -18,6 +18,7 @@ public interface UserService {
 	public List<Asset> fetchAllAssets(String assetType) throws DatabaseDownException;
 	public String borrowAsset(int assetId) throws ItemUnavailableException, DatabaseDownException;
 	public boolean banCheck(int userId) throws DatabaseDownException;
+	//public void borrowSuccess(int userId, ) throws DatabaseDownException;
 	public void deleteUser(int userId) throws DatabaseDownException;
 	//public User getUser(int userId) throws DatabaseDownException;
 }
