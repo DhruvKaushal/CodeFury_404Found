@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+
+
+
+#header{
+
+
+color : white;
+text-align : center;
+padding : 6px;
+
+}
+
+<!--#navigation{
+
+line-height : 40px;
+background-color : black;
+height : 500px;
+width : 100px;
+float : left;
+padding : 5px;
+
+
+}-->
+
+#mySidenav a {
+  position: absolute; /* Position them relative to the browser window */
+  left: -80px; /* Position them outside of the screen */
+  transition: 0.3s; /* Add transition on hover */
+  padding: 17px; /* 15px padding */
+  width: 100px; /* Set a specific width */
+  text-decoration: none; /* Remove underline */
+  font-size: 20px; /* Increase font size */
+  color: white; /* White text color */
+  background-color: black;
+  border-radius: 0 5px 5px 0; /* Rounded corners on the top right and bottom right side */
+}
+
+#mySidenav a:hover {
+  left: 0; /* On mouse-over, make the elements appear as they should */
+}
+
+/* The about link: 20px from the top with a green background */
+#about {
+  top: 180px;
+  background-color: #4CAF50;
+}
+
+#blog {
+  top: 250px;
+  background-color: #2196F3; /* Blue */
+}
+
+#projects {
+  top: 320px;
+  background-color: #f44336; /* Red */
+}
+
+#contact {
+  top: 390px;
+  background-color: #555 /* Light Black */
+}
+
+#section{
+
+float : left;
+padding : 10px;
+
+
+
+}
+
+<!--#foot{
+top : 400px;
+background-color : grey ;
+color : white;
+text-align : center;
+padding : 6px;
+clear : both;
+ 
+
+}
+-->
+
+<!--#foot{
+position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: grey;
+  color: white;
+  text-align: center;
+  padding : 3px;
+
+}-->
+
+
+footer{
+     position: fixed; 
+     padding: 3px; 
+     bottom: 0; 
+     width: 97%; 
+     /* Height of the footer*/  
+     height: 60px; 
+     background: grey; 
+     text-align: center;
+
+
+
+  
+
+}
+
+</style>
+
+</head>
+<body>
+
+<div style="background-color : maroon" id="header">
+<h1>HEADING</h1>
+<p>Despcription</p>
+</div>
+
+<div id="mySidenav" class="sidenav">
+  <a href="#" id="about">Resgister</a>
+  <a href="#" id="blog">Login</a>
+  <a href="#" id="projects">List</a>
+  <a href="#" id="contact">Import</a>
+</div>
+
+<div id="section"></div>
+
+
+<footer>
+  <p>FOOTER<br>
+  <a href="#">link</a></p>
+
+</footer>
+
+</body>
+</html>
