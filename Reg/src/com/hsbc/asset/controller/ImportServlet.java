@@ -31,11 +31,12 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 
-/**
- * Servlet implementation class ImportController
+/**@author Vishal Tandale
+ *
+ * @purpose Servlet implementation class Importing JSON Files into DB
  */
-@WebServlet("/ImportController")
-public class ImportController extends HttpServlet {
+@WebServlet("/ImportServlet")
+public class ImportServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private boolean isMultipart;
 	private String filePath;
@@ -50,7 +51,7 @@ public class ImportController extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ImportController() {
+    public ImportServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -139,7 +140,7 @@ public class ImportController extends HttpServlet {
 	    //Creating a JSONParser object
 	      JSONParser jsonParser = new JSONParser();
 	      try {
-	    	  Class.forName("org.apache.derby.jdbc.EmbeddedDriver");	//comemnt this
+	    	  Class.forName("org.apache.derby.jdbc.EmbeddedDriver");	//comment this
 	    	  Connection connection = DriverManager.getConnection("jdbc:derby:C:/Projects/MyDB/eassetDB;create=true", "admin", "admin");	//comment
 			  //Connection connection = DBUtility.getConnection();	//uncomment this for final integration
 	         //Parsing the contents of the JSON file
@@ -195,11 +196,18 @@ public class ImportController extends HttpServlet {
 		        preparedStatementUsersTable.setString(8, salt);
 		        preparedStatementUsersTable.executeUpdate(); 
 	         }  
-	         System.out.println("Records inserted.....");
+	         
+	         out.println("Records inserted.....");
+	         
+	         
+	         response.sendRedirect("index.html");
+	         Thread.sleep(5000);
 		     } catch (FileNotFoundException e) {
-		         e.printStackTrace();
+		         throw new FileNotFoundException("File is not Present in the directory");
+		    	 //e.printStackTrace();
 		     } catch (IOException e) {
-		         e.printStackTrace();
+		    	 throw new FileNotFoundException("File is not Present in the directory");
+		    	 //e.printStackTrace();
 		     } catch (ParseException e) {
 		         e.printStackTrace();
 		     } catch (Exception e) {
