@@ -42,7 +42,7 @@ public class RegisterServlet extends HttpServlet {
 		 
 		Timestamp ts = new Timestamp(new Date().getTime());
 		borrower.setSignUpDate(ts.toString());
-
+		
 		Borrower newUser;
 		try {
 			newUser = service.createUser(borrower);
@@ -58,7 +58,6 @@ public class RegisterServlet extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("login.html");
 			rd.include(request, response);
 		}
-		
 	}
 
 }

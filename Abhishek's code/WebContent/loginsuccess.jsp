@@ -21,11 +21,14 @@
 	<hr/>
 	
 	<h3>Checkout the Assets Page right here:<a href="AssetsPageServlet">Assets</a></h3>
+	<br /><br /><br />
+	<!-- User Current Assets Template Here -->
 	<hr />
 	
 	<div>
 		<h3>Messages/Notifications</h3>
 		<p>No new messages right now.</p>
+		<br /><br /><br />
 		<!-- Messages Template Here -->
 	</div>
 	<hr />

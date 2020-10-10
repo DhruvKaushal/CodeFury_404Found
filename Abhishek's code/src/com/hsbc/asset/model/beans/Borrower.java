@@ -11,6 +11,7 @@ public class Borrower {
 	private String email;
 	private String signUpDate;
 	private String signInDate;
+	private String salt;
 
 	public Borrower() {
 		super();
@@ -87,4 +88,21 @@ public class Borrower {
 	public void setSignInDate(String signInDate) {
 		this.signInDate = signInDate;
 	}
+
+	public String getSalt() {
+		return salt;
+	}
+	
+	public void setSalt(String salt) {
+		this.salt = salt;
+	}
+
+	@Override
+	public String toString() {
+		return "Borrower [userId=" + userId + ", userName=" + userName + ", name=" + name + ", role=" + role
+				+ ", password=" + password + ", contact=" + contact + ", email=" + email + ", signUpDate=" + signUpDate
+				+ ", signInDate=" + signInDate + ", salt=" + salt + "]";
+	}
+	
+	
 }
