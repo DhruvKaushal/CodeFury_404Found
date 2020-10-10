@@ -45,7 +45,7 @@
 	<hr/>
 	<!-- Cards for login and registration functionality -->
 	<div class="row" style="width:80%;margin:auto">
-  	<div class="col-sm-6">
+  	<div class="col-sm-4">
     	<div class="card">
       		<div class="card-body" style="margin:auto;">
         		<h5 class="card-title">New here? Click below to register!</h5>
@@ -53,11 +53,27 @@
       		</div>
     	</div>
   	</div>
-  	<div class="col-sm-6" style="margin:auto">
+  	<div class="col-sm-4" style="margin:auto">
     	<div class="card">
     		<div class="card-body" style="margin:auto">
         		<h5 class="card-title">Already registered? Click below to login!</h5>
         		<a href="#" class="btn btn-danger" style="margin-left:40%">Login</a>
+      		</div>
+    	</div>
+  	</div>
+  	<div class="col-sm-4" style="margin:auto">
+    	<div class="card">
+    		<div class="card-body" style="margin:auto">
+        		<h5 class="card-title">Upload a JSON File?</h5>
+        		  <form action = "ImportServlet" method = "post" enctype = "multipart/form-data">
+				      <div class="custom-file">
+				         
+				         <input type="file" class="custom-file-input" id="inputGroupFile02"  name = "file" size = "50">
+				    	 <label class="custom-file-label" for="inputGroupFile02">Choose file</label>
+
+				        <center> <button type = "submit" class="btn btn-danger" value = "Upload File" >Upload File</button></center>
+				      </div>
+			      </form>
       		</div>
     	</div>
   	</div>

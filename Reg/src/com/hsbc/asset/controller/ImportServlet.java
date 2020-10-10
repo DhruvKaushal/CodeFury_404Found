@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
@@ -140,9 +141,9 @@ public class ImportServlet extends HttpServlet {
 	    //Creating a JSONParser object
 	      JSONParser jsonParser = new JSONParser();
 	      try {
-	    	  Class.forName("org.apache.derby.jdbc.EmbeddedDriver");	//comment this
-	    	  Connection connection = DriverManager.getConnection("jdbc:derby:C:/Projects/MyDB/eassetDB;create=true", "admin", "admin");	//comment
-			  //Connection connection = DBUtility.getConnection();	//uncomment this for final integration
+	    	  //Class.forName("org.apache.derby.jdbc.EmbeddedDriver");	//comment this
+	    	  //Connection connection = DriverManager.getConnection("jdbc:derby:C:/Projects/MyDB/eassetDB;create=true", "admin", "admin");	//comment
+			  Connection connection = DBUtility.getConnection();	//uncomment this for final integration
 	         //Parsing the contents of the JSON file
 	         JSONObject jsonObject = (JSONObject) jsonParser.parse(new FileReader(filePath+fileName));
 	         //Retrieving the array of users_information
@@ -150,11 +151,17 @@ public class ImportServlet extends HttpServlet {
 	         //Insert a row into the MyPlayers table
 	         //PreparedStatement preparedStatementUserLogin  = connection.prepareStatement("insert into user_login (email, username, password) values(?,?,?)");
 	         //PreparedStatement preparedStatementUserRecord  = connection.prepareStatement("insert into user_record (user_id, name, role, contact, email) values(?,?,?,?,?)");
-	         PreparedStatement preparedStatementUsersTable = connection.prepareStatement("insert into users_table (user_id, name, username, contact, email, login_date_time, password, salt) values(?,?,?,?,?,?,?,?)");
+	         PreparedStatement preparedStatementUsersTable = connection.prepareStatement("insert into emp_master_record (user_id, name, username, contact, email, signup_date, password, salt) values(?,?,?,?,?,?,?,?)");
 	         for(Object object : jsonArray) {
 	            JSONObject record = (JSONObject) object;
 	            
-	            
+	            PreparedStatement sequenceStatement = connection.prepareStatement("values(next value for user_seq)");
+				ResultSet rs = sequenceStatement.executeQuery();
+				int seq = 0;
+				if(rs.next()) {
+					seq = rs.getInt(1);
+				} 
+				
 	            // getting email and username
 	            
 		        String email = (String) record.get("email"); 
@@ -183,10 +190,11 @@ public class ImportServlet extends HttpServlet {
 		        long contact = (long) record.get("contact");
 		        System.out.println(contact);
 		        
-		        String user_id = (String) record.get("user_id");
+		        //String user_id = (String) record.get("user_id");
 		        
 	            //inserting data into user_table
-		        preparedStatementUsersTable.setInt(1, new Random().nextInt(1000));	//generating random user id
+		        
+		        preparedStatementUsersTable.setInt(1, new Random().nextInt(100));	//generating random user id
 		        preparedStatementUsersTable.setString(2, name);
 		        preparedStatementUsersTable.setString(3, username);
 		        preparedStatementUsersTable.setLong(4, contact);
@@ -194,22 +202,34 @@ public class ImportServlet extends HttpServlet {
 		        preparedStatementUsersTable.setTimestamp(6, new java.sql.Timestamp(new java.util.Date().getTime()));
 		        preparedStatementUsersTable.setString(7, PasswordEncryptionUtility.generateSecurePassword(password, salt));
 		        preparedStatementUsersTable.setString(8, salt);
-		        preparedStatementUsersTable.executeUpdate(); 
+		        
+		        if(preparedStatementUsersTable.executeUpdate() > 0) {
+		        	 out.println("<script type=\"text/javascript\">");
+			         out.println("alert('Data uploaded successfully');");
+			         out.println("location='index.jsp';");
+			         out.println("</script>");
+		        } else {
+		        	 out.println("<script type=\"text/javascript\">");
+			         out.println("alert('Please check your JSON File');");
+			         out.println("location='index.jsp';");
+			         out.println("</script>");
+		        }
 	         }  
 	         
-	         out.println("Records inserted.....");
-	         
-	         
-	         response.sendRedirect("index.html");
-	         Thread.sleep(5000);
-		     } catch (FileNotFoundException e) {
-		         throw new FileNotFoundException("File is not Present in the directory");
+	         } catch (FileNotFoundException e) {
+	        	 out.println("<script type=\"text/javascript\">");
+		         out.println("alert('File is not present in the directory');");
+		         out.println("location='index.jsp';");
+		         out.println("</script>");
 		    	 //e.printStackTrace();
 		     } catch (IOException e) {
-		    	 throw new FileNotFoundException("File is not Present in the directory");
+		    	 throw new FileNotFoundException("Please check the the file");
 		    	 //e.printStackTrace();
 		     } catch (ParseException e) {
-		         e.printStackTrace();
+		    	 out.println("<script type=\"text/javascript\">");
+		         out.println("alert('Please check your JSON File');");
+		         out.println("location='index.jsp';");
+		         out.println("</script>");
 		     } catch (Exception e) {
 		         // TODO Auto-generated catch block
 		         e.printStackTrace();
