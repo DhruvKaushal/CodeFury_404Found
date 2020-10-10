@@ -16,17 +16,11 @@ import java.util.List;
 
 import com.hsbc.asset.exception.DbDown;
 import com.hsbc.asset.exception.EmployeeNotFound;
-import com.hsbc.asset.exception.OrderNotAllowed;
-
-//Dao layer implimentation.
-
-
 import com.hsbc.asset.model.bean.Employee;
 import com.hsbc.asset.model.bean.Item;
 import com.hsbc.asset.model.utility.DbUtility;
 
-import sun.nio.ch.SelChImpl;
-
+//DAO layer implementation.
 public class ModelDaoImpl implements ModelDao {
 
 	@Override
