@@ -1,0 +1,39 @@
+.container{
+	width:98%; 
+	margin:auto
+}
+@media all and (min-width: 1025px) {
+	.carousel-item img{
+		height:700px;
+		max-height:700px
+	}
+}
+@media all and (min-width: 1024px) and (max-width: 1280px) {
+	.carousel-item img{
+		height:600px;
+		max-height:600px
+	}
+}
+
+@media all and (min-width: 768px) and (max-width: 1024px) { 
+	.carousel-item img{
+		height:500px;
+		max-height:500px
+	}
+}
+
+@media all and (min-width: 480px) and (max-width: 768px) {
+	.carousel-item img{
+		width: auto;
+		height:250px;
+		max-height: 250px
+	}	
+}
+
+@media all and (max-width: 480px) {
+	.carousel-item img{
+		height: 150px;
+		width: auto;
+		max-height:150px;
+	}
+}
