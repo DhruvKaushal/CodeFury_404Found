@@ -4,33 +4,28 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Home</title>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="index.css">
 </head>
 <body>
+  <div class="container">
 	<hr>
-	<h1 style="background-color:grey;color:white;text-align:center;font-size:48px;padding:10px">Welcome To The AMP</h1>
-	<br>
-	<h1 style="background-color:grey;color:white;text-align:center">About the Application</h1>
-	<br>
-	<p>Welcome to the Asset Management Portal, or the AMP as we like to call ourselves. This is your very own portal for borrowing essentials. From our wide range of products such as latops, mobiles, books etc. 
-	   we shall ensure that your learning never stops! So log on and find your necessities, all at one place!</p>
-	<br>
+	
+	<h1 style="background-color:#303030;color:white;text-align:center;font-size:48px;padding:10px">Welcome To The AMP</h1>
+	<hr>
+	
 	<!-- Product Slideshow -->
-	<h1 style="background-color:grey;color:white;text-align:center">OUR PRODUCTS</h1>
-	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="height:600px;width:80%; margin:Auto">
+	<h1 style="background-color:grey;color:white;text-align:center">Our Products</h1>
+	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
   		<ol class="carousel-indicators">
     		<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
     		<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
   		</ol>
   		<div class="carousel-inner">
     	<div class="carousel-item active">
-      		<img class="d-block w-100" style="height: 700px;" src="images/laptop.jpg" alt="First slide" style="">
+      		<img class="d-block w-100" src="images/laptop.jpg" alt="First slide" class="responsive">
     	</div>
     	<div class="carousel-item">
-      		<img class="d-block w-100" style="height: 700px;" src="images/mobile.jpg" alt="Second slide">
+      		<img class="d-block w-100" src="images/mobile.jpg" alt="Second slide" class="responsive">
     	</div>
   	</div>
   	<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -43,9 +38,10 @@
   	</a>
 	</div>
 	<br>
+	<h1 style="background-color:grey;color:white;text-align:center">About the Application</h1>
 	<br>
-	<br>
-	<br>
+	<p>Welcome to the Asset Management Portal, or the AMP as we like to call ourselves. This is your very own portal for borrowing essentials. From our wide range of products such as latops, mobiles, books etc. 
+	   we shall ensure that your learning never stops! So log on and find your necessities, all at one place!</p>
 	<hr/>
 	<!-- Cards for login and registration functionality -->
 	<div class="row" style="width:80%;margin:auto">
@@ -61,12 +57,12 @@
     	<div class="card">
     		<div class="card-body" style="margin:auto">
         		<h5 class="card-title">Already registered? Click below to login!</h5>
-        		<a href="#" class="btn btn-danger" style="margin-left:33%">Login</a>
+        		<a href="#" class="btn btn-danger" style="margin-left:40%">Login</a>
       		</div>
     	</div>
   	</div>
 	</div>
-	
+  </div>
 </body>
 </html>
 <!-- added demo changes -->
