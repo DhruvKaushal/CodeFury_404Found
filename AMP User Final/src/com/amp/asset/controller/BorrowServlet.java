@@ -1,0 +1,62 @@
+package com.amp.asset.controller;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.amp.asset.model.beans.Asset;
+import com.amp.asset.model.beans.Employee;
+import com.amp.asset.model.business.AssetService;
+import com.amp.asset.model.util.LayerType;
+import com.amp.asset.model.util.UserFactory;
+import com.amp.asset.exception.OrderNotAllowedException;
+import com.amp.asset.exception.ServerDownException;
+
+/**
+ * Servlet implementation class BorrowServlet
+ */
+@WebServlet("/BorrowServlet")
+public class BorrowServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		
+		AssetService service = (AssetService) UserFactory.getInstance(LayerType.SERVICE);
+		int assetId = Integer.parseInt(request.getParameter("assetid"));
+		Employee employee = (Employee) session.getAttribute("employeeKey");
+		Asset assetStore = new Asset();
+		assetStore.setAssetId(assetId);
+		assetStore.setAssetType((String) session.getAttribute("currType"));
+		try {
+			service.order(assetStore, employee);
+			List<Asset> assetList = service.fetchAllAssets((String) session.getAttribute("currType"));
+			session.setAttribute("assetList", assetList);
+			
+			// Borrow success here
+			RequestDispatcher rd = request.getRequestDispatcher("borrowsuccess.jsp");
+			rd.include(request, response);
+			
+		} catch (ServerDownException e) {
+			response.getWriter().print("<p style='color:red;'>Sorry, our Server is Down. Please try again later.</p>");
+			RequestDispatcher rd = request.getRequestDispatcher("login.html");
+			rd.include(request, response);
+		} catch (OrderNotAllowedException e) {
+			RequestDispatcher rd = request.getRequestDispatcher("borrowfailure.jsp");
+			rd.include(request, response);
+			response.getWriter().print("<p style='color:red;'>You are in the Banned Phase. Return previously borrowed assets.<br />\r\n" + 
+										"If done, wait for Ban Period to end to borrow anymore assets.</p>");
+		}
+	}
+
+}
