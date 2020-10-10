@@ -11,12 +11,18 @@ function openForm2() {
 }
 
 
-
-
 function closeForm2() {
   document.getElementById("myForm2").style.display = "none";
 }
 	
+function openForm() {
+  	document.getElementById("myForm").style.display = "flex";
+}
+
+function closeForm() {
+	  document.getElementById("myForm").style.display = "none";
+	}
+
 function validateForm1(){
 	var borrowTime = document.forms["addAssetTypeForm"]["borrow"].value;
 	var ban = document.forms["addAssetTypeForm"]["ban"].value;

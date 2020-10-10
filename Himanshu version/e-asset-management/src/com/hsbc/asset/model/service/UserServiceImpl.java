@@ -7,6 +7,7 @@ import java.util.List;
 import com.hsbc.asset.exception.CategoryException;
 import com.hsbc.asset.model.beans.Asset;
 import com.hsbc.asset.model.beans.AssetType;
+import com.hsbc.asset.model.beans.Message;
 import com.hsbc.asset.model.beans.Transaction;
 import com.hsbc.asset.model.dao.UserDao;
 import com.hsbc.asset.model.utility.Type;
@@ -51,6 +52,21 @@ public class UserServiceImpl implements  UserService {
 		}
 		return trans;
 	}
+	@Override
+	public void sendMessage(Message message) {
+		 userDao.addMessage(message);
+	}
+	@Override
+	public List<Message> recieveMessage(int userId) {
+		return userDao.getMessage(userId);
+	}
+	@Override
+	public void updateMessage(int messageId) {
+		userDao.updateMessage(messageId);
+		
+	}
+	
+	
 
 
 }

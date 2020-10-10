@@ -27,9 +27,10 @@ public class AddAssetsServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 	UserService service = (UserService)FactoryPattern.getInstance(Type.SERVICE);
-
 	List<String> listCatagory = service.getCategoryList();
-	request.setAttribute("listCategory", listCatagory);
+    HttpSession session = request.getSession();
+
+    session.setAttribute("listCategory", listCatagory);
 	RequestDispatcher rd = request.getRequestDispatcher("adminhome.jsp");
 	rd.forward(request, response);
 }       

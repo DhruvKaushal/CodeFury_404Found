@@ -10,13 +10,11 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<script src="admin.js"></script>		
+<script src="admin.js"></script>
 	<h3>Admin Home</h3>
     
   	<button class="open-type-button" onclick="openForm1()">Add Category</button>
-  	<form  method ="get" action = "AddAssetsServlet"  >
- 		<button class="open-assets-button" type="submit" onclick="openForm2()">Add Assets</button>
-  	</form>
+  	<button class="open-assets-button"  onclick="openForm2()">Add Assets</button>
  	
  	<button class="open-name-button" onclick="location.href='searchName.jsp'" >Search By Name</button>
 

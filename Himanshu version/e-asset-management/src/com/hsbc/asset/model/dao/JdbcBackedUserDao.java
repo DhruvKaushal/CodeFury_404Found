@@ -11,6 +11,7 @@ import java.util.List;
 import com.hsbc.asset.exception.CategoryException;
 import com.hsbc.asset.model.beans.Asset;
 import com.hsbc.asset.model.beans.AssetType;
+import com.hsbc.asset.model.beans.Message;
 import com.hsbc.asset.model.beans.Transaction;
 import com.hsbc.asset.model.utility.DbUtility;
 
@@ -171,5 +172,71 @@ public class JdbcBackedUserDao implements UserDao{
 			return transaction;
 
 	}
+
+	@Override
+	public void addMessage(Message message) {
+		
+		try {
+			Connection connection = DbUtility.getConnection();
+			String query = "Insert into message(message_content,order_id) values(?,?)";
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+			preparedStatement.setString(1,message.getMessage_content());
+			preparedStatement.setInt(2,message.getOrderId());
+			preparedStatement.executeUpdate();
+
+			preparedStatement.close();
+			connection.close();
+		}catch(SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
 	
+	}
+	
+}
+
+	@Override
+	public List<Message> getMessage(int userId) {
+		List<Message> messageList = new ArrayList<Message>();
+		try {			
+			Connection connection = DbUtility.getConnection();
+			String query = "select message.message_id, message.message_content , message.order_id  from message  INNER JOIN user_order on message.order_id = user_order.order_id  and user_order.user_id = ? and message.is_read = false";
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setInt(1,userId);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while(resultSet.next()) {
+				Message m = new Message();
+				m.setMessageId(resultSet.getInt("message_id"));
+				m.setOrderId(resultSet.getInt("order_id"));
+				m.setMessage_content(resultSet.getString("message_content"));
+				messageList.add(m);
+			}
+			resultSet.close();
+			preparedStatement.close();
+			connection.close();		
+			return messageList;
+		}catch(SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		return messageList;
+	}
+
+	@Override
+	public void updateMessage(int messageId) {
+		
+		try {
+			Connection connection = DbUtility.getConnection();
+			String query = "update message set is_read = true where message_id = ?";
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setInt(1, messageId);
+			preparedStatement.executeUpdate(); 
+
+			preparedStatement.close();
+			connection.close();
+			
+		}catch(SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+	}
+
+}
 }
