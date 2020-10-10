@@ -11,11 +11,11 @@
 </head>
 <body>
 	<hr>
-	<h1 style="background-color:grey;color:white;text-align:center;font-size:48px;padding:10px">Welcome To The E-Asset Management Portal</h1>
+	<h1 style="background-color:grey;color:white;text-align:center;font-size:48px;padding:10px">Welcome To The AMP</h1>
 	<br>
 	<h1 style="background-color:grey;color:white;text-align:center">About the Application</h1>
 	<br>
-	<p>Your very own portal for borrowing essentials. From our wide range of products such as latops, mobiles, books etc. 
+	<p>Welcome to the Asset Management Portal, or the AMP as we like to call ourselves. This is your very own portal for borrowing essentials. From our wide range of products such as latops, mobiles, books etc. 
 	   we shall ensure that your learning never stops! So log on and find your necessities, all at one place!</p>
 	<br>
 	<!-- Product Slideshow -->
@@ -66,7 +66,7 @@
     	</div>
   	</div>
 	</div>
-	<a href="registration.jsp">here</a>
+	
 </body>
 </html>
 <!-- added demo changes -->

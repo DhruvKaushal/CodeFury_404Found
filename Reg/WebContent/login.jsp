@@ -10,7 +10,7 @@
 </head>
 <body>
 	<div>
-	<h1 style="background-color:grey;color:white;text-align:center">WELCOME TO THE LOGIN PAGE</h1>
+	<h1 style="background-color:grey;color:white;text-align:center">Login to AMP</h1>
 	<br>
 	
 	<form action="LoginServlet" method="post">
@@ -25,6 +25,16 @@
 			<label>
 				<b>Password</b> <input type="password" name="pass" id="psw" required>
 			</label>
+			<br>
+			
+			
+			<label ><b>Role</b></label>
+			<br>
+			  <select name="role" id="role" style="width:80%;margin-left:10%;height:40px">
+			    <option value="employee">Employee</option>
+			    <option value="admin">Admin</option>
+			  </select>
+			
 			<br>
 			<button type="submit" class="login">Login</button>
 			<br>

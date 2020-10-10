@@ -10,5 +10,5 @@ public interface UserDao {
 	public User store(User user) throws EmailAlreadylExistsException, UsernameAlreadyExistsException, ContactNoAlreadyExistsException;
 	
 	//login added
-	public User authenticate(String userCredential, String password) throws AuthenticationException ;
+	public User authenticate(String userCredential, String password,boolean isAdmin) throws AuthenticationException ;
 }

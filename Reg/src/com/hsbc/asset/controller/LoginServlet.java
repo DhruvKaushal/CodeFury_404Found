@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.hsbc.asset.exception.AuthenticationException;
-import com.hsbc.asset.model.utilities.UserFactory;
+import com.hsbc.asset.model.util.UserFactory;
 import com.hsbc.asset.model.beans.User;
 import com.hsbc.asset.model.service.UserService;
 
@@ -46,15 +46,20 @@ public class LoginServlet extends HttpServlet {
 //		doGet(request, response);
 		String userCredential=request.getParameter("usercredential");
 		String password=request.getParameter("pass");
+		
+		String role=request.getParameter("role");
+		boolean isAdmin=false;
+		if(role.equals("admin"))isAdmin=true;
 		UserService service = (UserService)UserFactory.getInstance("service");
 		
 		try {
 			
+			User user = service.login(userCredential, password,isAdmin);
+//			System.out.println(user.getUsername());
 			
-			User user = service.login(userCredential, password);
-			System.out.println(user.getUsername());
 			HttpSession session = request.getSession();
 			session.setAttribute("userKey", user);
+			session.setAttribute("isAdmin", true);
 			RequestDispatcher rd = request.getRequestDispatcher("homepage.jsp");
 			rd.forward(request, response);
 		} catch (AuthenticationException e) {	
@@ -62,7 +67,6 @@ public class LoginServlet extends HttpServlet {
 			request.setAttribute("err", e.getMessage());
 			rd.forward(request, response);
 		}
-		
 	}
 
 }

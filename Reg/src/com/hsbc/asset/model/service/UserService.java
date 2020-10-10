@@ -10,5 +10,5 @@ public interface UserService {
 	public User createUser(User user) throws EmailAlreadylExistsException, UsernameAlreadyExistsException, ContactNoAlreadyExistsException;
 	
 	//login added
-	public User login(String userCredential, String password) throws AuthenticationException;
+	public User login(String userCredential, String password, boolean isAdmin) throws AuthenticationException;
 }

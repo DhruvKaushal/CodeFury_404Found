@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 
 import com.hsbc.asset.model.beans.User;
 import com.hsbc.asset.model.util.DBUtility;
-import com.hsbc.asset.model.utilities.PasswordUtils;
+import com.hsbc.asset.model.util.PasswordEncryptionUtility;
 
 public class UserDaoImpl implements UserDao{
 	public User store(User user) throws EmailAlreadylExistsException, UsernameAlreadyExistsException, ContactNoAlreadyExistsException{
@@ -71,13 +71,24 @@ public class UserDaoImpl implements UserDao{
 	}
 	
 	// user login added
-	public User authenticate(String userCredential, String password) throws AuthenticationException {
+	public User authenticate(String userCredential, String password,boolean isAdmin) throws AuthenticationException {
 		User user = null;
 		
 		
 		try {
 			Connection connection = DBUtility.getConnection();
-			String loginQuery="select * from users_table where email = ?  or username=?";
+			
+			String loginQuery;
+
+			
+			if(isAdmin)
+			{
+				 loginQuery="select * from admin_table where email = ?  or username=?";	
+			}
+			else
+			{
+				loginQuery="select * from users_table where email = ?  or username=?";	
+			}
 			
 			PreparedStatement preparedStatement = connection.prepareStatement(loginQuery);
 			preparedStatement.setString(1, userCredential);
@@ -91,14 +102,15 @@ public class UserDaoImpl implements UserDao{
 		        
 		        // Salt value stored in database 
 				
-				//TO DO HAI YEH ABHI
-				preparedStatement = connection.prepareStatement("select salt from users_table where user_id=?");
-				preparedStatement.setInt(1,resultSet.getInt("user_id"));
-		        String salt = preparedStatement.executeQuery().getString("salt");
+				//TO test when integrating with the registeration procedure
+			
+//				preparedStatement = connection.prepareStatement("select salt from users_table where user_id=?");
+//				preparedStatement.setInt(1,resultSet.getInt("user_id"));
+//		        String salt = preparedStatement.executeQuery().getString("salt");
+//		        
+//		        boolean passwordMatch = PasswordUtils.verifyUserPassword(password, resultSet.getString("passowrd"), salt);
 		        
-		        boolean passwordMatch = PasswordUtils.verifyUserPassword(password, resultSet.getString("passowrd"), salt);
-		        
-//				boolean passwordMatch=true;
+				boolean passwordMatch=true;
 		        if(passwordMatch) 
 		        {
 		        	while(resultSet.next()) {
@@ -108,7 +120,16 @@ public class UserDaoImpl implements UserDao{
 						Timestamp loginTimestamp = new Timestamp(System.currentTimeMillis());
 						
 						//update login time in users_table
-						preparedStatement = connection.prepareStatement("update users_table set login_date_time =? where user_id=? ");
+						String loginTimeUpdateQuery;
+						if(isAdmin)
+						{
+							 loginTimeUpdateQuery="update admin_table set login_date_time =? where user_id=? ";	
+						}
+						else
+						{
+							loginTimeUpdateQuery="update users_table set login_date_time =? where user_id=? ";	
+						}
+						preparedStatement = connection.prepareStatement(loginTimeUpdateQuery);
 						preparedStatement.setTimestamp(1, loginTimestamp);
 						preparedStatement.setInt(2, resultSet.getInt("user_id"));
 						preparedStatement.executeUpdate();

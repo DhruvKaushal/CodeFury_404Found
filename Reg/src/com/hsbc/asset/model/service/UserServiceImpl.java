@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
 	
 	//login added
 	@Override
-	public User login(String userCredential, String password) throws AuthenticationException {
+	public User login(String userCredential, String password, boolean isAdmin) throws AuthenticationException {
 		
 		
 		//todo
@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
 		//authenticteAdmin
 		//authenticteBorrower
 		
-		User user=userDao.authenticate(userCredential, password);
+		User user=userDao.authenticate(userCredential, password, isAdmin);
 		return user;
 	}
 

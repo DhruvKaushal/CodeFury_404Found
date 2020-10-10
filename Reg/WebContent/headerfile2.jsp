@@ -8,12 +8,11 @@
 <title></title>
 </head>
 <body>
-	<div class="header">
-		<!-- In below a tag, changing link to user home page -->
-  		<a href="index.jsp" class="logo" style="color:white;"><b>THE ASSET MANAGEMENT PORTAL</b></a>
-  		<div class="header-right">
-    		<a class="logout" href="#home">Logout</a>
-  		</div>
-	</div>
+	<nav class="navbar navbar-dark bg-danger sticky-top sticky-offset">
+  		<a href="index.jsp" class="navbar-brand">AMP: The Asset Management Portal</a>
+  		<form class="form-inline" action="login.jsp">
+    		<button class="btn btn-outline-light my-2 my-sm-0" type="submit"> Logout</button>
+  		</form>
+	</nav>
 </body>
 </html>

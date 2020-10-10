@@ -8,13 +8,12 @@
 <link rel="stylesheet" href="headerfile.css">
 </head>
 <body>
-	<div class="header">
-  		<a href="index.jsp" class="logo" style="color:white;"><b>THE ASSET MANAGEMENT PORTAL</b></a>
-  		<div class="header-right">
-    		<a class="active" href="#home">Login</a>
-    		<a href="registration.jsp">Register</a>
-    		<a href="#about">About</a>
-  		</div>
-	</div>
+	<nav class="navbar navbar-dark bg-danger sticky-top sticky-offset">
+  		<a href="index.jsp" class="navbar-brand">AMP: The Asset Management Portal</a>
+  		<form class="form-inline" action="login.jsp">
+    		<button class="btn btn-outline-light my-2 my-sm-0" type="submit"> Login</button>
+  		</form>
+	</nav>
+	
 </body>
 </html>

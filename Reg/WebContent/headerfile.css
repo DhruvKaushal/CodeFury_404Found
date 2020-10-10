@@ -17,11 +17,6 @@
   border-radius: 4px;
 }
 
-/* Style the logo link (notice that we set the same value of line-height and font-size to prevent the header to increase when the font gets bigger */
-.header a.logo {
-  font-size: 25px;
-  font-weight: bold;
-}
 
 /* Change the background color on mouse-over */
 .header a:hover {
@@ -51,3 +46,8 @@
     float: none;
   }
 }
+
+.sticky-offset {
+    top: 56px;
+}
+a.image-link:focus { outline: 0; color:white}
