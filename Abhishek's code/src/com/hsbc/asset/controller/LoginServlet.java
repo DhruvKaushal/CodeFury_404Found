@@ -42,9 +42,8 @@ public class LoginServlet extends HttpServlet {
 			borrower = service.login(email, password);
 			session.setAttribute("userKey", borrower);
 			boolean isBan = service.banCheck(borrower.getUserId());
-			session.setAttribute("banKey", isBan);
+			session.setAttribute("isBan", isBan);
 			if(isBan) {
-				pw.print("<p style='color:red;'>Username or Password is incorrect. Please try again.</p>");
 				RequestDispatcher rd = request.getRequestDispatcher("loginsuccesswithban.jsp");
 				rd.include(request, response);
 			}

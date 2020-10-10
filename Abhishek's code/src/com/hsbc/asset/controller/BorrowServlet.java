@@ -38,8 +38,17 @@ public class BorrowServlet extends HttpServlet {
 			List<Asset> assetList = service.fetchAllAssets((String) session.getAttribute("currType"));
 			session.setAttribute("ans", ans);
 			session.setAttribute("assetList", assetList);
-			RequestDispatcher rd = request.getRequestDispatcher("borrowsuccess.jsp");
-			rd.include(request, response);
+			
+			if((boolean) session.getAttribute("isBan")) {
+				RequestDispatcher rd = request.getRequestDispatcher("borrowfailureban.jsp");
+				rd.include(request, response);
+			}
+			else {
+				//borrow succes here
+				RequestDispatcher rd = request.getRequestDispatcher("borrowsuccess.jsp");
+				rd.include(request, response);
+			}
+			
 		} catch (ItemUnavailableException e) {
 			session.setAttribute("err", e.getMessage());
 			RequestDispatcher rd = request.getRequestDispatcher("borrowfailure.jsp");

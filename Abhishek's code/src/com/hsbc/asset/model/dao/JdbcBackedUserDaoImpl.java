@@ -35,21 +35,23 @@ public class JdbcBackedUserDaoImpl implements UserDao {
 				return borrower;
 			}
 			
-			String recordQuery = "insert into user_record values (next value for user_seq,?,?,?,?,?,?,null)";
+			String recordQuery = "insert into user_record values (next value for user_seq, ?, ?, ?, ?,null,?,?,'a')";
 			preparedStatement = connection.prepareStatement(recordQuery);
 			preparedStatement.setString(1, borrower.getName());
 			preparedStatement.setString(2, borrower.getUserName());
 			preparedStatement.setLong(3, borrower.getContact());
 			preparedStatement.setString(4, borrower.getEmail());
-			preparedStatement.setString(5, borrower.getPassword());
 			Timestamp date = Timestamp.valueOf(borrower.getSignUpDate());
-			preparedStatement.setObject(6, date);
+			preparedStatement.setObject(5, date);
+			preparedStatement.setString(6, borrower.getPassword());
+			//preparedStatement.setString(7, borrower.getSalt());
 			preparedStatement.executeUpdate();
 			
 			recordQuery = "select user_id from user_record where email = ?";
 			preparedStatement = connection.prepareStatement(recordQuery);
 			preparedStatement.setString(1, borrower.getEmail());
 			rs = preparedStatement.executeQuery();
+			
 			
 			while(rs.next()) {
 				borrower.setUserId(rs.getInt(1));
@@ -95,13 +97,13 @@ public class JdbcBackedUserDaoImpl implements UserDao {
 				borrower.setUserName(resultSet.getString("username"));
 				borrower.setContact(resultSet.getLong("contact"));
 				borrower.setEmail(resultSet.getString("email"));
-				borrower.setPassword(resultSet.getString("password"));
 				borrower.setSignUpDate(resultSet.getObject("signup_date_time").toString());
 				Timestamp date = new Timestamp(new Date().getTime());
 				borrower.setSignInDate(date.toString());
+				borrower.setPassword(resultSet.getString("password"));
 			}
 			
-			loginQuery = "update user_record set signin_date_time = ? where email = ?";
+			loginQuery = "update user_record set login_date_time = ? where email = ?";
 			preparedStatement = connection.prepareStatement(loginQuery);
 			Timestamp date = Timestamp.valueOf(borrower.getSignInDate());
 			preparedStatement.setObject(1, date);
@@ -179,7 +181,7 @@ public class JdbcBackedUserDaoImpl implements UserDao {
 		List<Asset> assetList = new ArrayList<Asset>();
 		try {
 			Connection connection = DBUtility.getConnection();
-			String assetQuery = "select * from asset_details where type = ?";
+			String assetQuery = "select * from asset_details where asset_type = ?";
 			PreparedStatement preparedStatement = connection.prepareStatement(assetQuery);
 			preparedStatement.setString(1, type);
 			ResultSet resultSet = preparedStatement.executeQuery();
@@ -188,7 +190,7 @@ public class JdbcBackedUserDaoImpl implements UserDao {
 				Asset newAsset = new Asset();
 				newAsset.setAssetId(resultSet.getInt("asset_id"));
 				newAsset.setName(resultSet.getString("asset_name"));
-				newAsset.setDesc(resultSet.getString("description"));
+				newAsset.setDesc(resultSet.getString("asset_description"));
 				newAsset.setQuantity(resultSet.getInt("quantity"));
 				assetList.add(newAsset);
 			}
@@ -207,7 +209,7 @@ public class JdbcBackedUserDaoImpl implements UserDao {
 		boolean isBan = false;
 		try {
 			Connection connection = DBUtility.getConnection();
-			String assetQuery = "select is_ban from ban_user where user_id = ?";
+			String assetQuery = "select is_ban from user_ban where user_id = ?";
 			PreparedStatement preparedStatement = connection.prepareStatement(assetQuery);
 			preparedStatement.setInt(1, userId);
 			ResultSet resultSet = preparedStatement.executeQuery();
