@@ -9,16 +9,16 @@
 <body>
 	<h3>Your Profile Details:</h3>
 	<p>
-		UserID: ${userKey.userId}<br />
-		UserName: ${userKey.userName}<br />
-		Name: ${userKey.name}<br />
-		Role: ${userKey.role}<br />
-		Email: ${userKey.email}<br />
-		Password: ${userKey.password}<br />
-		Contact No.: ${userKey.contact}<br />
-		Signed Up on: ${userKey.signUpDate}<br />
-		Last Sign In on: ${userKey.signInDate}<br />
+		UserID: ${employeeKey.employeeId}<br />
+		UserName: ${employeeKey.employeeUsername}<br />
+		Name: ${employeeKey.employeeName}<br />
+		Contact No.: ${employeeKey.employeeContact}<br />
+		Role: ${employeeKey.role}<br />
+		Email: ${employeeKey.employeeEmail}<br />
+		Password: ${employeeKey.employeePassword}<br />
+		Signed Up on: ${employeeKey.signUpDate}<br />
+		Last Sign In on: ${employeeKey.signInDate}<br />
 	</p>
-	<a href="loginsuccess.jsp">Back to Dashboard</a>
+	<a href="employeedashboard.jsp">Back to Dashboard</a>
 </body>
 </html>

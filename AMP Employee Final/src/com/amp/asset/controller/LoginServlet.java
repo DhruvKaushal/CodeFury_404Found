@@ -34,26 +34,31 @@ public class LoginServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		PrintWriter pw = response.getWriter();
 		
-		String username = request.getParameter("mail");
+		String username = request.getParameter("uname");
 		String password = request.getParameter("pass");
-		String role = request.getParameter("role");
+		//String role = request.getParameter("role");
 		AssetService service = (AssetService) UserFactory.getInstance(LayerType.SERVICE);
 		Employee employee = null;
-		
+
 		try {
-			if(role.equalsIgnoreCase(UserType.ADMIN.toString())){
+			employee = service.employeeLogin(username, password);
+			session.setAttribute("employeeKey", employee);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("employeedashboard.jsp");
+			rd.forward(request, response);
+//			if(role.equalsIgnoreCase(UserType.ADMIN.toString())){
 //				employee = service.adminLogin(username, password);
 //				session.setAttribute("adminKey",admin);
 //				RequestDispatcher rd = request.getRequestDispatcher("adminDashboard.jsp");
 //				rd.forward(request, response);
-			}
-			else if(role.equalsIgnoreCase(UserType.EMPLOYEE.toString())) {
-				employee = service.employeeLogin(username, password);
-				session.setAttribute("employeeKey", employee);
-				
-				RequestDispatcher rd = request.getRequestDispatcher("employeedashboard.jsp");
-				rd.forward(request, response);
-			}
+//			}
+//			else if(role.equalsIgnoreCase(UserType.EMPLOYEE.toString())) {
+//				employee = service.employeeLogin(username, password);
+//				session.setAttribute("employeeKey", employee);
+//				
+//				RequestDispatcher rd = request.getRequestDispatcher("employeedashboard.jsp");
+//				rd.forward(request, response);
+//			}
 		} catch (AuthenticationException a) {
 			pw.print("<p style='color:red;'>Username or Password is incorrect. Please try again.</p>");
 			RequestDispatcher rd = request.getRequestDispatcher("login.html");

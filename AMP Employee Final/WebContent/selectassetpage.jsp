@@ -15,7 +15,7 @@
 	<!-- Header Template Here-->
 	<div class="dash-back">
 		<h2>Asset Request Page</h2>
-		<a class="btn btn-primary stretched-link" href="loginsuccess.jsp">Back to Dashboard</a>
+		<a class="btn btn-primary stretched-link" href="employeedashboard.jsp">Back to Dashboard</a>
 	</div>
 	
 <%-- 	<h3>Checkout Popular Items right here:</h3>

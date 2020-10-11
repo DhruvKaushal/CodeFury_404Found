@@ -27,8 +27,8 @@
 				<core:forEach items="${assetList}" var="a">
 					<tr>
 						<td>${a.assetId}</td>
-						<td>${a.name}</td>
-						<td>${a.desc}</td>
+						<td>${a.assetName}</td>
+						<td>${a.assetDescription}</td>
 						<td>${a.quantity}</td>
 					</tr>
 				</core:forEach>

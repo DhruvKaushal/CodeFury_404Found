@@ -16,6 +16,7 @@ import com.amp.asset.model.beans.Employee;
 import com.amp.asset.model.business.AssetService;
 import com.amp.asset.model.util.LayerType;
 import com.amp.asset.model.util.UserFactory;
+import com.amp.asset.exception.DuplicateOrderException;
 import com.amp.asset.exception.OrderNotAllowedException;
 import com.amp.asset.exception.ServerDownException;
 
@@ -56,6 +57,10 @@ public class BorrowServlet extends HttpServlet {
 			rd.include(request, response);
 			response.getWriter().print("<p style='color:red;'>You are in the Banned Phase. Return previously borrowed assets.<br />\r\n" + 
 										"If done, wait for Ban Period to end to borrow anymore assets.</p>");
+		} catch (DuplicateOrderException e) {
+			RequestDispatcher rd = request.getRequestDispatcher("borrowassetpage.jsp");
+			rd.include(request, response);
+			response.getWriter().print("<p style='color:red;'>You already have an item of this category! Multiple items of same category not allowed.</p>");
 		}
 	}
 

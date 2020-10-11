@@ -18,8 +18,10 @@ import com.amp.asset.model.util.RoleFactory;
 import com.amp.asset.model.util.UserType;
 import com.amp.asset.exception.AuthenticationException;
 import com.amp.asset.exception.EmployeeNotFoundException;
+import com.amp.asset.exception.NoProductBorrowedException;
 import com.amp.asset.exception.ServerDownException;
 import com.amp.asset.exception.DuplicateEmployeeException;
+import com.amp.asset.exception.DuplicateOrderException;
 
 //DAO layer implementation.
 public class AssetDaoImpl implements AssetDao {
@@ -30,9 +32,10 @@ public class AssetDaoImpl implements AssetDao {
 		try {
 			PreparedStatement preparedStatement;
 			Connection connection = DBUtility.getConnection();
-			String checkQuery = "select * from emp_master_record where emp_email = ?";
+			String checkQuery = "select * from emp_master_record where username = ? or emp_email = ?";
 			preparedStatement = connection.prepareStatement(checkQuery);
 			preparedStatement.setString(1, employee.getEmployeeUsername());
+			preparedStatement.setString(2, employee.getEmployeeEmail());
 			ResultSet rs = preparedStatement.executeQuery();
 			if (rs.next()) {
 				// Employee is already registered user.
@@ -46,10 +49,9 @@ public class AssetDaoImpl implements AssetDao {
 			preparedStatement.setString(3, employee.getEmployeeUsername());
 			preparedStatement.setString(4, employee.getEmployeeEmail());
 			preparedStatement.setString(5, employee.getEmployeePassword());
-			// preparedStatement.setString(6, employee.getSalt()); // ----->This is for
-			// salt.
+			// preparedStatement.setString(6, employee.getSalt()); // ----->This is for salt.
 			Timestamp date = Timestamp.valueOf(employee.getSignUpDate());
-			preparedStatement.setObject(7, date);
+			preparedStatement.setObject(6, date);
 			preparedStatement.executeUpdate();
 
 			// This is for fetching automated generated Employee Id.
@@ -239,7 +241,7 @@ public class AssetDaoImpl implements AssetDao {
 		List<Asset> assetList = new ArrayList<Asset>();
 		try {
 			Connection connection = DBUtility.getConnection();
-			String assetQuery = "select * from asset_details where asset_type = ?";
+			String assetQuery = "select * from asset_record where asset_type = ?";
 			PreparedStatement preparedStatement = connection.prepareStatement(assetQuery);
 			preparedStatement.setString(1, type);
 			ResultSet resultSet = preparedStatement.executeQuery();
@@ -248,7 +250,7 @@ public class AssetDaoImpl implements AssetDao {
 				Asset newAsset = new Asset();
 				newAsset.setAssetId(resultSet.getInt("asset_id"));
 				newAsset.setAssetName(resultSet.getString("asset_name"));
-				newAsset.setAssetDescription(resultSet.getString("asset_description"));
+				newAsset.setAssetDescription(resultSet.getString("asset_info"));
 				newAsset.setQuantity(resultSet.getInt("quantity"));
 				assetList.add(newAsset);
 			}
@@ -263,84 +265,109 @@ public class AssetDaoImpl implements AssetDao {
 	}
 
 	@Override
-	public List<Asset> getAllLinked(Employee employee) {
+	public List<Asset> fetchAllBorrowed(int empId, int flag) throws NoProductBorrowedException {
 		List<Asset> allAssets = new ArrayList<Asset>();
+		List<Asset> finalList = new ArrayList<Asset>();
+		Asset asset = null;
 		try {
 			Connection connection = DBUtility.getConnection();
 			PreparedStatement searchStatement = connection
-					.prepareStatement("select * from transaction_master where emp_id = ? and is_return = true");
-			searchStatement.setInt(1, employee.getEmployeeId());
+					.prepareStatement("select * from transaction_master where emp_id = ? and is_return = false");
+			searchStatement.setInt(1, empId);
 			ResultSet rs = searchStatement.executeQuery();
+			
 			while (rs.next()) {
-				Asset Asset = new Asset();
-				Asset.setTransId(rs.getInt(1));
-				Asset.setAssetId(rs.getInt(2));
-				Asset.setAssetType(rs.getString(3));
-				Asset.setDateIssued(rs.getTimestamp(4));
-				Asset.setDateReturn(rs.getTimestamp(5));
-				Asset.setActualReturn(rs.getTimestamp(6));
-				Timestamp actual = Timestamp.valueOf("23/09/2007");
-				if (Asset.getActualReturn().equals(actual)) {
-					allAssets.add(Asset);
-				}
+				asset = new Asset();
+				asset.setTransId(rs.getInt("trans_id"));
+				asset.setAssetId(rs.getInt("asset_id"));
+				asset.setDateIssued(rs.getTimestamp("issue_date"));
+				asset.setDateReturn(rs.getTimestamp("default_return_date"));
+				asset.setActualReturn(rs.getTimestamp("actual_return_date"));
+				allAssets.add(asset);
 			}
+			
+			if(allAssets.isEmpty() && flag == 0) {
+				throw new NoProductBorrowedException();
+			}
+			
+			for(Asset as : allAssets) {
+				Asset temp = as;
+				searchStatement = connection
+						.prepareStatement("select * from asset_record where asset_id = ?");
+				searchStatement.setInt(1, as.getAssetId());
+				rs = searchStatement.executeQuery();
+				if(rs.next()) {
+					temp.setAssetType(rs.getString("asset_type"));
+					temp.setAssetName(rs.getString("asset_name"));
+					temp.setAssetDescription(rs.getString("asset_info"));
+					temp.setQuantity(rs.getInt("quantity"));
+				}
+				finalList.add(temp);
+			}
+			
+			searchStatement.close();
+			rs.close();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return allAssets;
+		return finalList;
 	}
 
 	@Override
-	public void returnProduct(int orderId) {
+	public void returnProduct(int orderId) throws ServerDownException {
 		try {
 			Connection connection = DBUtility.getConnection();
 			PreparedStatement updateStatement = connection.prepareStatement(
-					"update transaction_master set is_return=? and actual_return_date=? where trans_id=?");
+					"update transaction_master set is_return = true, actual_return_date = ? where trans_id=?");
 			Timestamp date = new Timestamp(new Date().getTime());
 			updateStatement.setObject(1, date);
 			updateStatement.setInt(2, orderId);
 			updateStatement.executeUpdate();
-
+			
+			System.out.println("transid: " + orderId);
 			PreparedStatement searchStatement = connection
 					.prepareStatement("select asset_id from transaction_master where trans_id=?");
 			searchStatement.setInt(1, orderId);
 			ResultSet rs = searchStatement.executeQuery();
-			int AssetId = 0;
+			int assetId = 0;
 			if (rs.next()) {
-				AssetId = rs.getInt(1);
+				assetId = rs.getInt("asset_id");
 			}
-
+			
+			System.out.println("assetid: "+assetId);
 			PreparedStatement updateStatementAsset = connection
 					.prepareStatement("update asset_record set quantity = quantity + 1 where asset_id=?");
-			updateStatementAsset.setInt(1, AssetId);
+			updateStatementAsset.setInt(1, assetId);
 			updateStatementAsset.executeUpdate();
 
-			String query = "select ban_days from asset_record where asset_id = "
-					+ "(select asset_id from transaction_master where trans_id = ?)";
+			String query = "select ban_period from asset_master where asset_type = (select asset_type from asset_record where asset_id = (select asset_id from transaction_master where trans_id = ?))";
 
 			searchStatement = connection.prepareStatement(query);
 			searchStatement.setInt(1, orderId);
 			rs = searchStatement.executeQuery();
+			
 			if (rs.next()) {
 				int days = rs.getInt(1);
 
 				long lendingPeriodSeconds = days * (24 * 60 * 60 * 1000);
 				Timestamp finalDate = new Timestamp(date.getTime() + lendingPeriodSeconds);
-
 				updateStatement = connection.prepareStatement("select emp_id from transaction_master where trans_id=?");
 				updateStatement.setInt(1, orderId);
+				System.out.println("second1");
 				ResultSet rs1 = updateStatement.executeQuery();
+				System.out.println("second2");
+				
 				if (rs1.next()) {
-					int userId = rs1.getInt(1);
+					int empId = rs1.getInt(1);
 					PreparedStatement selectStatement = connection
 							.prepareStatement("select ban_date from ban_status where emp_id=?");
-					selectStatement.setInt(1, userId);
+					selectStatement.setInt(1, empId);
 					ResultSet rs2 = selectStatement.executeQuery();
 					if (rs2.next()) {
-						Timestamp banDate = rs.getTimestamp(1);
-						updateDate(finalDate, banDate, userId);
+						Timestamp banDate = rs.getTimestamp("ban_date");
+						updateDate(finalDate, banDate, empId);
 					}
 				}
 			}
@@ -353,22 +380,31 @@ public class AssetDaoImpl implements AssetDao {
 	}
 
 	@Override
-	public Asset order(Asset assetStore, Employee employee) {
+	public Asset order(Asset assetStore, Employee employee) throws DuplicateOrderException {
 		boolean returnFlag = false;
 		try {
 			Connection connection = DBUtility.getConnection();
 			
-			PreparedStatement insertStatementProductBorrow = connection
-					.prepareStatement("insert into transaction_master(emp_id, asset_id, issued_date, default_return_date, actual_return_date, is_return, current_fine) values(?,?,?,?,?,?,?)");
-			insertStatementProductBorrow.setInt(1, employee.getEmployeeId());
-			insertStatementProductBorrow.setInt(2, assetStore.getAssetId());
+			PreparedStatement insertStatement = connection
+					.prepareStatement("select asset_type from asset_record where asset_type = (select asset_type from transaction_master where asset_id = ? and is_return = false)");
+			insertStatement.setInt(1, assetStore.getAssetId());
+			ResultSet searchSet = insertStatement.executeQuery();
+			
+			if(searchSet.next()) {
+				throw new DuplicateOrderException();
+			}
+			
+			insertStatement = connection
+					.prepareStatement("insert into transaction_master(emp_id, asset_id, issue_date, default_return_date, actual_return_date, is_return, current_fine) values(?,?,?,?,?,?,?)");
+			insertStatement.setInt(1, employee.getEmployeeId());
+			insertStatement.setInt(2, assetStore.getAssetId());
 			Timestamp date = new Timestamp(new Date().getTime());
-			insertStatementProductBorrow.setTimestamp(3, date);
+			insertStatement.setTimestamp(3, date);
 			
 			PreparedStatement preparedStatement = connection
 					.prepareStatement("select lending_period from asset_master where asset_type=?");
 			preparedStatement.setString(1, assetStore.getAssetType());
-			ResultSet searchSet = preparedStatement.executeQuery();
+			searchSet = preparedStatement.executeQuery();
 			
 			int lendingPeriod = 0;
 			
@@ -378,12 +414,12 @@ public class AssetDaoImpl implements AssetDao {
 			
 			long lendingPeriodSeconds = (lendingPeriod * 24 * 60 * 60 * 1000);
 			Timestamp addDays = new Timestamp(date.getTime() + lendingPeriodSeconds);
-			insertStatementProductBorrow.setTimestamp(4, addDays);
+			insertStatement.setTimestamp(4, addDays);
 			
-			Timestamp actual = Timestamp.valueOf("23/09/2007");
-			insertStatementProductBorrow.setTimestamp(5, actual);
-			insertStatementProductBorrow.setBoolean(6, true);
-			insertStatementProductBorrow.setFloat(7, 0);
+			Timestamp actual = new Timestamp(new Date().getTime());
+			insertStatement.setTimestamp(5, actual);
+			insertStatement.setBoolean(6, false);
+			insertStatement.setFloat(7, 0);
 			
 			PreparedStatement preparedStatementSearch = connection
 					.prepareStatement("select is_ban from ban_status where emp_id=?");
@@ -395,9 +431,9 @@ public class AssetDaoImpl implements AssetDao {
 				flag = searchSetSearch.getBoolean(1);
 			}
 			if (!flag) {
-				insertStatementProductBorrow.executeUpdate();
+				insertStatement.executeUpdate();
 				PreparedStatement updateStatement = connection
-						.prepareStatement("update asset_details set quantity=quantity-1 where asset_id=?");
+						.prepareStatement("update asset_record set quantity=quantity-1 where asset_id=?");
 				updateStatement.setInt(1, assetStore.getAssetId());
 				updateStatement.executeUpdate();
 				returnFlag = true;
@@ -413,7 +449,7 @@ public class AssetDaoImpl implements AssetDao {
 				assetStore.setTransId(searchSet.getInt(1));
 			}
 						
-			insertStatementProductBorrow.close();
+			insertStatement.close();
 			connection.close();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();

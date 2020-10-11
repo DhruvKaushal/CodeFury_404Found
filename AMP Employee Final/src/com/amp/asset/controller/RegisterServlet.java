@@ -43,6 +43,7 @@ public class RegisterServlet extends HttpServlet {
 		Employee newEmployee;
 		try {
 			newEmployee = service.createEmployee(employee);
+			System.out.println("servlet-success");
 			session.setAttribute("newEmployee" , newEmployee);
 			pw.print("<p style=\"color: green;\">You have successfully registered. Your User ID is: </p>" + employee.getEmployeeId());
 			RequestDispatcher rd = request.getRequestDispatcher("login.html");

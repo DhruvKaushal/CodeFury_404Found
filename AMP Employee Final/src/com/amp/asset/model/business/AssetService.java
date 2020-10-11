@@ -7,6 +7,7 @@ import com.amp.asset.model.beans.Employee;
 import com.amp.asset.exception.AuthenticationException;
 import com.amp.asset.exception.ServerDownException;
 import com.amp.asset.exception.DuplicateEmployeeException;
+import com.amp.asset.exception.DuplicateOrderException;
 import com.amp.asset.exception.EmployeeNotFoundException;
 import com.amp.asset.exception.NoProductBorrowedException;
 import com.amp.asset.exception.OrderNotAllowedException;
@@ -18,9 +19,9 @@ public interface AssetService {
 //	public Admin adminLogin(Admin admin) throws AdminNotFound, ServerDown,InvalidCredentials; // Admin login
 	public List<String> fetchCategory() throws ServerDownException;
 	public List<Asset> fetchAllAssets(String assetType) throws ServerDownException;
-	public void order(Asset assetStore, Employee userSession) throws OrderNotAllowedException;
-	public List<Asset> returnItem(Employee userSession) throws NoProductBorrowedException;
-	public void returnProduct(int orderId);
+	public Asset order(Asset assetStore, Employee userSession) throws OrderNotAllowedException, DuplicateOrderException;
+	public List<Asset> fetchAllBorrowed(int empId,int flag) throws NoProductBorrowedException;
+	public void returnProduct(int orderId) throws ServerDownException;
 	public void isBan(Employee employeeLoginSuccess);
 }
 

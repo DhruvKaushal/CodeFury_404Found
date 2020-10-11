@@ -1,6 +1,6 @@
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="core"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,35 +8,33 @@
 <title>Borrow Request Successful</title>
 </head>
 <body>
-	<div style="display: flex;justify-content: space-between;">
+	<div style="display: flex; justify-content: space-between;">
 		<h3 style="color: green;">${ans}</h3>
-		<a style="margin-top: 20px;" href="loginsuccess.jsp">Back to Dashboard</a>
+		<a style="margin-top: 20px;" href="employeedashboard.jsp">Back to Dashboard</a>
 	</div>
 	<hr />
 
 	<h3>Updated Results for ${currType} are:</h3>
 	<table class='table'>
 		<thead class='thead'>
-				<tr>
-					<th>Asset ID</th>
-					<th>Asset Name</th>
-					<th>Description</th>
-					<th>Quantity Available</th>
-				</tr>
+			<tr>
+				<th>Asset ID</th>
+				<th>Asset Name</th>
+				<th>Description</th>
+				<th>Quantity Available</th>
+			</tr>
 		</thead>
 		<tbody class='tbody'>
 			<core:forEach items="${assetList}" var="a">
 				<tr>
 					<td>${a.assetId}</td>
-					<td>${a.name}</td>
-					<td> ${a.desc}</td>
-					<td> ${a.quantity}</td>
+					<td>${a.assetName}</td>
+					<td>${a.assetDescription}</td>
+					<td>${a.quantity}</td>
 				</tr>
 			</core:forEach>
 		</tbody>
 	</table>
 	<hr />
-	
-	<a href="assetpage.jsp">Back to Assets Page</a>
 </body>
 </html>

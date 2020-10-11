@@ -10,6 +10,7 @@ import com.amp.asset.model.util.UserFactory;
 import com.amp.asset.exception.AuthenticationException;
 import com.amp.asset.exception.ServerDownException;
 import com.amp.asset.exception.DuplicateEmployeeException;
+import com.amp.asset.exception.DuplicateOrderException;
 import com.amp.asset.exception.EmployeeNotFoundException;
 import com.amp.asset.exception.NoProductBorrowedException;
 import com.amp.asset.exception.OrderNotAllowedException;
@@ -58,26 +59,22 @@ public class AssetServiceImpl implements AssetService {
 	}
 	
 	@Override
-	public void order(Asset assetStore, Employee userSession) throws OrderNotAllowedException {
-		Asset flag = ampDao.order(assetStore,userSession);
-		if(flag == null) {
-			throw new OrderNotAllowedException("Sorry you are not allowed to place order.Please contact admin.");
-		}
+	public Asset order(Asset assetStore, Employee userSession) throws OrderNotAllowedException, DuplicateOrderException {
+		return assetStore = ampDao.order(assetStore,userSession);
 	}
 
 	@Override
-	public List<Asset> returnItem(Employee employee) throws NoProductBorrowedException{
-		List<Asset> all = ampDao.getAllLinked(employee);
-		if(all.size() == 0) {
+	public List<Asset> fetchAllBorrowed(int empId, int flag) throws NoProductBorrowedException{
+		List<Asset> all = ampDao.fetchAllBorrowed(empId, flag);
+		if(all.size() == 0 && flag == 0) {
 			throw new NoProductBorrowedException("You have nothing to return.");
 		}
 		return all;
 	}
 
 	@Override
-	public void returnProduct(int orderId) {
-		ampDao.returnProduct( orderId);
-		
+	public void returnProduct(int orderId) throws ServerDownException {
+		ampDao.returnProduct(orderId);
 	}
 
 	@Override

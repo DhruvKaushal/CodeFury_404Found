@@ -8,6 +8,7 @@ public class Employee
 	private long employeeContact;
 	private String employeeEmail;
 	private String employeeUsername;
+	private String role = "Employee";
 	private String employeePassword;
 	private String signUpDate;
 	private String signInDate;
@@ -60,6 +61,9 @@ public class Employee
 	}
 	public void setEmployeePassword(String employeePassword) {
 		this.employeePassword = employeePassword;
+	}
+	public String getRole() {
+		return role;
 	}
 	public String getSignUpDate() {
 		return signUpDate;

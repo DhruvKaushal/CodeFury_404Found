@@ -12,7 +12,7 @@
 	<!-- Header Template Here -->
 	
 	<div style="display: flex;justify-content: space-between;">
-		<h3 style="color: green;">Hello, ${userKey.userName} </h3>
+		<h3 style="color: green;">Hello, ${employeeKey.employeeUsername} </h3>
 		<div>
 			<h3><a href="profile.jsp">Profile Details</a></h3>
 			<h3><a href="LogoutServlet">Logout</a></h3>
@@ -33,9 +33,7 @@
 	</div>
 	<hr />
 	
-	<h3>Return your Assets here:</h3>
-	<hr />
-	<h2><a href="ReturnServlet">Return Asset here.</a></h2>
+	<h3>Return your Assets here:<a href="BorrowedAssetsServlet">Return Asset here</a></h3>
 	<br/>
 	
 	<!--  Footer Template Here	-->
