@@ -147,7 +147,6 @@ public class ImportServlet extends HttpServlet {
 	         //Insert a row into the emp_master_record table
 	 		UserService service = (UserService)FactoryPattern.getInstance(Type.SERVICE);
 
-	         PreparedStatement preparedStatementUsersTable = connection.prepareStatement("insert into emp_master_record (emp_name,emp_contact,username, emp_email,emp_pwd,pwd_salt,signup_date) values(?,?,?,?,?,?,?)");
 	         for(Object object : jsonArray) {
 	            JSONObject record = (JSONObject) object;
 	            
