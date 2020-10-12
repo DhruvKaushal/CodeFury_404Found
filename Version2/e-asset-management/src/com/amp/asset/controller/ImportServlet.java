@@ -9,6 +9,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -30,11 +31,14 @@ import com.amp.asset.model.utility.DbUtility;
 import com.amp.asset.model.utility.FactoryPattern;
 import com.amp.asset.model.utility.PasswordEncryptionUtility;
 import com.amp.asset.model.utility.Type;
+import com.hsbc.asset.exception.InvalidContactNumberException;
+import com.hsbc.asset.exception.InvalidEmailException;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-
+import com.amp.asset.exception.InvalidContactNumberException;
+import com.amp.asset.exception.InvalidEmailException;
 
 /**@author Vishal Tandale
  *
@@ -143,7 +147,6 @@ public class ImportServlet extends HttpServlet {
 	         //Insert a row into the emp_master_record table
 	 		UserService service = (UserService)FactoryPattern.getInstance(Type.SERVICE);
 
-	         PreparedStatement preparedStatementUsersTable = connection.prepareStatement("insert into emp_master_record (emp_name,emp_contact,username, emp_email,emp_pwd,pwd_salt,signup_date) values(?,?,?,?,?,?,?)");
 	         for(Object object : jsonArray) {
 	            JSONObject record = (JSONObject) object;
 	            
@@ -151,9 +154,17 @@ public class ImportServlet extends HttpServlet {
 	            
 	            Employee emp = null;
 	            
-
+	            //validation of email address
 	            String email = (String) record.get("email"); 
+		        String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
 		        
+		        String validatedEmail = null;
+		        
+		        if(email.matches(regex)) {
+		        	validatedEmail = email;
+		        } else {
+			        throw new InvalidEmailException("Please check the format of the email that you have entered");
+		        }
 		        
 		        String username = (String) record.get("username"); 
 		          
@@ -167,28 +178,19 @@ public class ImportServlet extends HttpServlet {
 		        String name = (String) record.get("name");
 		        
 		        
+		        String regexContact = "(0/91)?[7-9][0-9]{9}";
 		        long contact = (long) record.get("contact");
-		        
-	            emp = new Employee(name,contact,email,username,password,new java.sql.Timestamp(new java.util.Date().getTime()),new java.sql.Timestamp(new java.util.Date().getTime()),salt);
+		        long validatedContact = 0L;
+		        String contactString = contact+"";
+		        if( contactString.matches(regexContact) ) {
+		        	validatedContact = contact;
+		        } else {
+		        	throw new InvalidContactNumberException();
+		        }
+	            emp = new Employee(name,validatedContact,validatedEmail,username,password,new Timestamp(new java.util.Date().getTime()),new Timestamp(new java.util.Date().getTime()),salt);
 	            //inserting data into user_table
-		        
-//		        int count = 0;		//getting last last serial number entered into the database
-//				PreparedStatement lastIDStmt = connection.prepareStatement("select emp_id from emp_master_record");
-//				ResultSet lastIdRs = lastIDStmt.executeQuery();
-//				while(lastIdRs.next()) {
-//					count++;
-//				}
-//				 
+		         
 	           Employee emp1 = service.createUser(emp);
-		        
-//		        preparedStatementUsersTable.setInt(1, count);	//generating random user id
-//		        preparedStatementUsersTable.setString(2, name);
-//		        preparedStatementUsersTable.setString(3, username);
-//		        preparedStatementUsersTable.setLong(4, contact);
-//		        preparedStatementUsersTable.setString(5, email);
-//		        preparedStatementUsersTable.setTimestamp(6, new java.sql.Timestamp(new java.util.Date().getTime()));
-//		        preparedStatementUsersTable.setString(7, PasswordEncryptionUtility.generateSecurePassword(password, salt));
-//		        preparedStatementUsersTable.setString(8, salt);
 		        
 		        if(emp1!=null) {
 		        	 out.println("<script type=\"text/javascript\">");
@@ -204,21 +206,41 @@ public class ImportServlet extends HttpServlet {
 	         }  
 	         
 	         } catch (FileNotFoundException e) {
-	        	 out.println("<script type=\"text/javascript\">");
-		         out.println("alert('File is not present in the directory');");
-		         out.println("location='index.jsp';");
-		         out.println("</script>");
-		    } catch (IOException e) {
-		    	 throw new FileNotFoundException("Please check the the file");
-		     } catch (ParseException e) {
-		    	 out.println("<script type=\"text/javascript\">");
-		         out.println("alert('Please check your JSON File');");
-		         out.println("location='index.jsp';");
-		         out.println("</script>");
-		     } catch (Exception e) {
+	        	   out.println("<script type=\"text/javascript\">");
+				   out.println("alert('File not found in the location');");
+				   out.println("location='index.jsp';");
+				   out.println("</script>");
+			      
+		     } 
+	      	 catch (IOException e) {
+		    	 e.getMessage();
+		     } 
+	         catch (ParseException e) {
+		    	   out.println("<script type=\"text/javascript\">");
+				   out.println("alert('Please check JSON file');");
+				   out.println("location='index.jsp';");
+				   out.println("</script>");
+			      
+		     }
+	      	 catch (InvalidEmailException e) {
+	      		 out.println("<script type=\"text/javascript\">");
+			     out.println("alert('Please check the format of the email that you have entered');");
+			     out.println("location='index.jsp';");
+			     out.println("</script>");
+	      	 }
+	         catch (InvalidContactNumberException e) {
+	      		 out.println("<script type=\"text/javascript\">");
+			     out.println("alert('Contact number you entered is not in valid format');");
+			     out.println("location='index.jsp';");
+			     out.println("</script>");
+	      	 }
+	      	 catch (Exception e) {
 		         e.printStackTrace();
-		      }
-	      }
+		         out.println("<script type=\"text/javascript\">");
+			      out.println("alert('Please check your json file');");
+			      out.println("location='index.jsp';");
+			      out.println("</script>");
+		      }	      }
 	      
 	      public void doGet(HttpServletRequest request, HttpServletResponse response)
 	         throws ServletException, java.io.IOException {
