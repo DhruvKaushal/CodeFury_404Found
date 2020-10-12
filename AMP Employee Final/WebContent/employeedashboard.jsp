@@ -1,6 +1,7 @@
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "core" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ include file = "css/headerfilelogin.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,34 +9,43 @@
 <title>Employee Profile Page</title>
 <link rel="stylesheet" href="/css/styles.css">
 </head>
+<style>
+.row {
+  display: flex;
+}
+
+.column {
+  flex: 50%;
+}
+</style>
 <body>
 	<!-- Header Template Here -->
-	
-	<div style="display: flex;justify-content: space-between;">
-		<h3 style="color: green;">Hello, ${employeeKey.employeeUsername} </h3>
-		<div>
-			<h3><a href="profile.jsp">Profile Details</a></h3>
-			<h3><a href="LogoutServlet">Logout</a></h3>
-		</div>
+
+	<br/>
+	<div class="row">
+  		<div class="column"></div>
+  		<div class="column"></div>
 	</div>
-	<hr/>
 	
-	<h3>Checkout the Assets Page right here:<a href="AssetsPageServlet">Assets</a></h3>
+	<h3 style="font-family: 'Sansita Swashed', cursive;margin-left: 10px;">Checkout the Assets Page right here:<a class="btn btn-danger my-2 my-sm-0" style="margin-left: 10px;"  href="AssetsPageServlet">Assets</a></h3>
+	
 	<br /><br /><br />
 	<!-- User Current Assets Template Here -->
 	<hr />
 	
 	<div>
-		<h3>Messages/Notifications</h3>
-		<p>No new messages right now.</p>
+		<h3 style="font-family: 'Sansita Swashed', cursive;margin-left: 10px;">Messages/Notifications</h3>
 		<br /><br /><br />
 		<!-- Messages Template Here -->
 	</div>
 	<hr />
 	
-	<h3>Return your Assets here:<a href="BorrowedAssetsServlet">Return Asset here</a></h3>
-	<br/>
-	
+	<h3 style="font-family: 'Sansita Swashed', cursive;margin-left: 10px;">Return your Assets here:<a class="btn btn-danger my-2 my-sm-0" style="margin-left:10px;" href="BorrowedAssetsServlet">Return Asset here</a></h3>
 	<!--  Footer Template Here	-->
+	<br><br><br><br>
+	
 </body>
 </html>
+<%@ include file = "css/footer.html" %>
+
+
