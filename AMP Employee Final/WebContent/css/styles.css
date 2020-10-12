@@ -6,17 +6,17 @@
 	margin-right: 10px;
 }
 
-.label, div h2 {
+.label{
 	margin-left: 10px;
 	margin-right: 10px;
 }
 
-.label{
+.label {
 	font-size: 20px;	
 }
 
-.asset-req{
-	font-family: 'Ubuntu', sans-serif;
+.asset-req {
+	font-family: 'Sansita Swashed', cursive;
 	margin-left: 10px;
 }
 
