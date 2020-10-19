@@ -146,7 +146,8 @@ public class ImportServlet extends HttpServlet {
 	         JSONArray jsonArray = (JSONArray) jsonObject.get("users_information");
 	         //Insert a row into the emp_master_record table
 	 		UserService service = (UserService)FactoryPattern.getInstance(Type.SERVICE);
-
+	 		int countUsers = 0;
+	 		boolean isImported = false;
 	         for(Object object : jsonArray) {
 	            JSONObject record = (JSONObject) object;
 	            
@@ -193,18 +194,22 @@ public class ImportServlet extends HttpServlet {
 	           Employee emp1 = service.createUser(emp);
 		        
 		        if(emp1!=null) {
+		        	 isImported = true;
+		        }
+	         }  
+	         
+		         if(isImported == true) {
 		        	 out.println("<script type=\"text/javascript\">");
-			         out.println("alert('Data uploaded successfully');");
-			         out.println("location='index.jsp';");
-			         out.println("</script>");
-		        } else {
+						out.println("alert('"+countUsers+" Users uploaded successfully');");
+						out.println("location='index.jsp';");
+					    out.println("</script>");
+		         } else {
 		        	 out.println("<script type=\"text/javascript\">");
 			         out.println("alert('Please check your JSON File');");
 			         out.println("location='index.jsp';");
 			         out.println("</script>");
-		        }
-	         }  
-	         
+		         }
+		         
 	         } catch (FileNotFoundException e) {
 	        	   out.println("<script type=\"text/javascript\">");
 				   out.println("alert('File not found in the location');");
@@ -237,10 +242,11 @@ public class ImportServlet extends HttpServlet {
 	      	 catch (Exception e) {
 		         e.printStackTrace();
 		         out.println("<script type=\"text/javascript\">");
-			      out.println("alert('Please check your json file');");
-			      out.println("location='index.jsp';");
-			      out.println("</script>");
-		      }	      }
+			     out.println("alert('Please check your json file');");
+			     out.println("location='index.jsp';");
+			     out.println("</script>"); 
+	      	 }	      
+	      }
 	      
 	      public void doGet(HttpServletRequest request, HttpServletResponse response)
 	         throws ServletException, java.io.IOException {
